@@ -367,7 +367,7 @@ export default function SushirajHero() {
                   <span className="font-poppins font-regular text-sm text-white">Premium Quality</span>
                 </div>
                 <div className="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full shadow-sm border border-white/20">
-                  <span className="font-poppins font-regular text-sm text-white">Since 2010 | Trusted Brand</span>
+                  <span className="font-poppins font-regular text-sm text-white">Since 2020 | Trusted Brand</span>
                 </div>
               </div>
             </div>
