@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../context/ThemeContext";
-import { Phone, Mail, MapPin, Clock, MessageSquare, MessageCircle, Navigation, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageSquare, MessageCircle, Navigation, ExternalLink, ChevronRight, Building, Star } from "lucide-react";
 
 export default function Contact() {
   const { isDark } = useTheme();
   const [visible, setVisible] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState(null);
   const sectionRef = useRef(null);
   const cursorGlowRef = useRef(null);
 
@@ -56,37 +57,59 @@ export default function Contact() {
 
   const fullAddress = "F-7, Shubham Residency, near Khare Sanskrutik Bhavan, Vishrambag, Sangli, Maharashtra 416416, India";
   const encodedAddress = encodeURIComponent(fullAddress);
-  const GOOGLE_MAPS_API_KEY = "AIzaSyCUuhDWxp4EB9lIFcEmAoNGoh40tx1lIK8";
+  // Vite uses import.meta.env for environment variables
+  const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-  const contactInfo = [
+  // Primary contact methods (top priority)
+  const primaryContacts = [
     { 
       icon: Phone, 
       title: "Call Us", 
+      subtitle: "Quick support & inquiries",
       details: ["8888800773", "97634 73858"], 
       action: "call",
       primaryNumber: "8888800773",
-      secondaryNumber: "9763473858"
+      secondaryNumber: "9763473858",
+      gradient: "from-emerald-500 to-teal-600",
+      priority: "primary",
+      actionLabel: "Tap to Call Now"
     },
     { 
       icon: MessageCircle, 
       title: "WhatsApp", 
-      details: ["Chat with us on WhatsApp"], 
+      subtitle: "Chat & share documents",
+      details: ["Click to start conversation"], 
       action: "whatsapp",
-      number: "8888800773"
+      number: "8888800773",
+      gradient: "from-green-500 to-emerald-600",
+      priority: "primary",
+      actionLabel: "Start WhatsApp Chat"
     },
+  ];
+
+  // Secondary contact methods
+  const secondaryContacts = [
     { 
       icon: Mail, 
       title: "Email Us", 
+      subtitle: "For formal communication",
       details: ["Sushiraj.enterprises@gmail.com"], 
       action: "email",
-      email: "Sushiraj.enterprises@gmail.com"
+      email: "Sushiraj.enterprises@gmail.com",
+      gradient: "from-blue-500 to-indigo-600",
+      priority: "secondary",
+      actionLabel: "Send Email"
     },
     { 
       icon: Navigation, 
-      title: "Get Directions", 
+      title: "Visit Us", 
+      subtitle: "Get directions to office",
       details: ["Open in Google Maps"], 
       action: "map",
-      location: fullAddress
+      location: fullAddress,
+      gradient: "from-purple-500 to-pink-600",
+      priority: "secondary",
+      actionLabel: "Get Directions"
     },
   ];
 
@@ -184,62 +207,130 @@ export default function Contact() {
             className={`font-poppins text-base sm:text-lg text-text-light-secondary dark:text-text-dark-secondary max-w-2xl mx-auto fade-up ${visible ? "visible" : ""}`}
             style={{ animationDelay: "0.2s" }}
           >
-            Choose your preferred way to connect with us - we're just a click away!
+            We're here to help! Choose your preferred way to connect with our team.
           </p>
         </div>
 
-        {/* Contact Info Grid - Direct Action Cards */}
+        {/* Contact Info Grid - Hierarchical Layout */}
         <div className={`max-w-6xl mx-auto fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {contactInfo.map((info, index) => {
-              const Icon = info.icon;
-              return (
-                <div
-                  key={index}
-                  className={`group rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 shimmer-card ${
-                    isDark ? "bg-dark-card" : "bg-white"
-                  } shadow-lg border border-gray-200 dark:border-gray-800 hover:border-secondary-500/40 cursor-pointer`}
-                  onClick={() => {
-                    if (info.action === 'call') {
-                      handleContactAction('call', info.primaryNumber);
-                    } else if (info.action === 'whatsapp') {
-                      handleContactAction('whatsapp', { number: info.number });
-                    } else if (info.action === 'email') {
-                      handleContactAction('email', { email: info.email });
-                    } else if (info.action === 'map') {
-                      handleContactAction('map', { location: info.location });
-                    }
-                  }}
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="font-poppins font-semibold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">
-                    {info.title}
-                  </h3>
-                  {info.details.map((detail, i) => (
-                    <p key={i} className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                      {detail}
+          
+          {/* Primary Contact Cards - Larger, more prominent */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Star className="w-5 h-5 text-secondary-500" />
+              <h3 className="font-poppins font-semibold text-text-light-primary dark:text-text-dark-primary">
+                Fastest Way to Reach Us
+              </h3>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-6">
+              {primaryContacts.map((info, index) => {
+                const Icon = info.icon;
+                return (
+                  <div
+                    key={index}
+                    className={`group relative rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 shimmer-card ${
+                      isDark ? "bg-dark-card" : "bg-white"
+                    } shadow-xl border-2 border-secondary-500/30 hover:border-secondary-500/60 cursor-pointer overflow-hidden`}
+                    onMouseEnter={() => setHoveredCard(info.title)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                    onClick={() => {
+                      if (info.action === 'call') {
+                        handleContactAction('call', info.primaryNumber);
+                      } else if (info.action === 'whatsapp') {
+                        handleContactAction('whatsapp', { number: info.number });
+                      }
+                    }}
+                  >
+                    {/* Priority Badge */}
+                    <div className="absolute top-4 right-4">
+                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-secondary-500/20 text-secondary-500">
+                        PRIORITY
+                      </span>
+                    </div>
+                    
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${info.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
+                      <Icon className="w-7 h-7 text-white" />
+                    </div>
+                    <h3 className="font-poppins font-bold text-xl text-text-light-primary dark:text-text-dark-primary mb-1">
+                      {info.title}
+                    </h3>
+                    <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary mb-3">
+                      {info.subtitle}
                     </p>
-                  ))}
-                  
-                  {/* Action Button */}
-                  <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-                    <span className="text-secondary-500 text-sm font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">
-                      {info.action === 'call' && '📞 Tap to Call'}
-                      {info.action === 'whatsapp' && '💬 Tap to Chat'}
-                      {info.action === 'email' && '✉️ Tap to Email'}
-                      {info.action === 'map' && '📍 Tap for Directions'}
-                      <span className="text-base">→</span>
-                    </span>
+                    {info.details.map((detail, i) => (
+                      <p key={i} className="text-base font-medium text-text-light-primary dark:text-text-dark-primary">
+                        {detail}
+                      </p>
+                    ))}
+                    
+                    {/* Action Button */}
+                    <div className="mt-5 pt-3 border-t border-gray-200 dark:border-gray-700">
+                      <span className="text-secondary-500 font-medium inline-flex items-center gap-2 group-hover:gap-3 transition-all">
+                        {info.actionLabel}
+                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
-          {/* Phone Numbers with Direct Actions */}
-          <div className={`mt-6 rounded-2xl p-5 ${
+          {/* Secondary Contact Cards */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Building className="w-5 h-5 text-text-light-muted dark:text-text-dark-muted" />
+              <h3 className="font-poppins font-semibold text-text-light-primary dark:text-text-dark-primary">
+                Other Ways to Connect
+              </h3>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              {secondaryContacts.map((info, index) => {
+                const Icon = info.icon;
+                return (
+                  <div
+                    key={index}
+                    className={`group rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 shimmer-card ${
+                      isDark ? "bg-dark-card" : "bg-white"
+                    } shadow-md border border-gray-200 dark:border-gray-800 hover:border-secondary-500/30 cursor-pointer`}
+                    onClick={() => {
+                      if (info.action === 'email') {
+                        handleContactAction('email', { email: info.email });
+                      } else if (info.action === 'map') {
+                        handleContactAction('map', { location: info.location });
+                      }
+                    }}
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${info.gradient} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                          <Icon className="w-5 h-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-poppins font-semibold text-lg text-text-light-primary dark:text-text-dark-primary">
+                            {info.title}
+                          </h3>
+                          <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                            {info.subtitle}
+                          </p>
+                        </div>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-text-light-muted dark:text-text-dark-muted group-hover:translate-x-1 group-hover:text-secondary-500 transition-all" />
+                    </div>
+                    
+                    {info.details.map((detail, i) => (
+                      <p key={i} className="text-sm text-text-light-secondary dark:text-text-dark-secondary mt-3 ml-14">
+                        {detail}
+                      </p>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Phone Numbers with Direct Actions - Quick Action Bar */}
+          <div className={`mt-8 rounded-2xl p-5 ${
             isDark ? "bg-dark-card" : "bg-white"
           } shadow-lg border border-green-500/20 bg-gradient-to-r from-green-500/5 to-transparent`}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -249,10 +340,10 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-poppins font-semibold text-text-light-primary dark:text-text-dark-primary">
-                    Quick Connect
+                    Quick Connect Hotline
                   </h3>
                   <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    Tap any number to call directly
+                    Tap any number to call directly - We're available 9 AM to 7 PM
                   </p>
                 </div>
               </div>
@@ -260,7 +351,7 @@ export default function Contact() {
               <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                 <button
                   onClick={() => handleContactAction('call', '8888800773')}
-                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-secondary-500 to-secondary-600 text-white font-poppins font-medium hover:shadow-lg transition-all"
+                  className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-secondary-500 to-secondary-600 text-white font-poppins font-semibold hover:shadow-lg hover:scale-105 transition-all"
                 >
                   <Phone className="w-4 h-4" />
                   8888800773
@@ -268,7 +359,7 @@ export default function Contact() {
                 
                 <button
                   onClick={() => handleContactAction('call', '9763473858')}
-                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border-2 border-secondary-500 text-secondary-500 font-poppins font-medium hover:bg-secondary-500 hover:text-white transition-all"
+                  className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-secondary-500 text-secondary-500 font-poppins font-semibold hover:bg-secondary-500 hover:text-white transition-all"
                 >
                   <Phone className="w-4 h-4" />
                   97634 73858
@@ -276,7 +367,7 @@ export default function Contact() {
 
                 <button
                   onClick={() => handleContactAction('whatsapp', { number: '8888800773' })}
-                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-green-600 text-white font-poppins font-medium hover:bg-green-700 transition-all"
+                  className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-green-600 to-green-700 text-white font-poppins font-semibold hover:shadow-lg hover:scale-105 transition-all"
                 >
                   <MessageCircle className="w-4 h-4" />
                   WhatsApp
@@ -285,11 +376,11 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Quick Response & Support Hours */}
-          <div className="mt-4 grid sm:grid-cols-2 gap-4">
+          {/* Support Info Cards */}
+          <div className="mt-5 grid sm:grid-cols-2 gap-4">
             <div className={`rounded-2xl p-5 ${
               isDark ? "bg-dark-card" : "bg-white"
-            } shadow-lg border border-blue-500/20 bg-gradient-to-r from-blue-500/5 to-transparent`}>
+            } shadow-md border border-blue-500/20 bg-gradient-to-r from-blue-500/5 to-transparent`}>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center">
                   <MessageSquare className="w-6 h-6 text-blue-500" />
@@ -303,7 +394,7 @@ export default function Contact() {
                   </p>
                 </div>
                 <div className="ml-auto text-right">
-                  <p className="text-xs text-text-light-muted dark:text-text-dark-muted">Average</p>
+                  <p className="text-xs text-text-light-muted dark:text-text-dark-muted">Average response</p>
                   <p className="text-sm font-semibold text-blue-500">&lt; 12 hours</p>
                 </div>
               </div>
@@ -311,7 +402,7 @@ export default function Contact() {
 
             <div className={`rounded-2xl p-5 ${
               isDark ? "bg-dark-card" : "bg-white"
-            } shadow-lg border border-purple-500/20 bg-gradient-to-r from-purple-500/5 to-transparent`}>
+            } shadow-md border border-purple-500/20 bg-gradient-to-r from-purple-500/5 to-transparent`}>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center">
                   <Clock className="w-6 h-6 text-purple-500" />
@@ -321,7 +412,7 @@ export default function Contact() {
                     Business Hours
                   </h3>
                   <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    Mon - Sat: 9:00 AM - 7:00 PM
+                    Monday - Saturday: 9:00 AM - 7:00 PM
                   </p>
                   <p className="text-xs text-text-light-muted dark:text-text-dark-muted">
                     Sunday: Closed
@@ -334,29 +425,32 @@ export default function Contact() {
 
         {/* Map Section with Satellite/Street View */}
         <div className={`mt-12 max-w-6xl mx-auto fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.45s" }}>
-          <div className={`rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 ${
+          <div className={`rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800 ${
             isDark ? "bg-dark-card" : "bg-white"
           }`}>
-            <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between flex-wrap gap-3">
+            <div className="p-5 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-secondary-500" />
-                <span className="font-poppins font-medium text-text-light-primary dark:text-text-dark-primary">
+                <span className="font-poppins font-semibold text-text-light-primary dark:text-text-dark-primary">
                   Our Location
+                </span>
+                <span className="text-xs px-2 py-1 rounded-full bg-secondary-500/10 text-secondary-500">
+                  Visit Us
                 </span>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => handleContactAction('map', { location: fullAddress })}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-secondary-500/10 text-secondary-500 text-sm font-medium hover:bg-secondary-500/20 transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary-500/10 text-secondary-500 text-sm font-medium hover:bg-secondary-500/20 transition-all"
                 >
                   <Navigation className="w-4 h-4" />
-                  Directions
+                  Get Directions
                 </button>
                 <a
                   href={`https://www.google.com/maps/place/${encodedAddress}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
                 >
                   <ExternalLink className="w-4 h-4" />
                   Full Screen
@@ -365,36 +459,50 @@ export default function Contact() {
             </div>
             
             {/* Address Display */}
-            <div className="p-4 bg-secondary-500/5 border-b border-gray-200 dark:border-gray-800">
+            <div className="p-5 bg-secondary-500/5 border-b border-gray-200 dark:border-gray-800">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-secondary-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="font-poppins font-medium text-text-light-primary dark:text-text-dark-primary">
-                    F-7, Shubham Residency
+                  <p className="font-poppins font-semibold text-text-light-primary dark:text-text-dark-primary">
+                    Sushiraj Enterprises
                   </p>
                   <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    near Khare Sanskrutik Bhavan, Vishrambag, <br />
-                    Sangli, Maharashtra 416416, India
+                    F-7, Shubham Residency, near Khare Sanskrutik Bhavan, <br />
+                    Vishrambag, Sangli, Maharashtra 416416, India
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Embedded Google Map with Street/Satellite View */}
+            {/* Embedded Google Map */}
             <div className="relative w-full h-[400px] lg:h-[450px] bg-gray-100 dark:bg-gray-900">
-              <iframe
-                title="Sushiraj Enterprises Location - Shubham Residency, Sangli"
-                src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${encodedAddress}&zoom=18&maptype=roadmap`}
-                className="absolute inset-0 w-full h-full"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              {GOOGLE_MAPS_API_KEY ? (
+                <iframe
+                  title="Sushiraj Enterprises Location - Shubham Residency, Sangli"
+                  src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${encodedAddress}&zoom=18&maptype=roadmap`}
+                  className="absolute inset-0 w-full h-full"
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <MapPin className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+                    <p className="text-text-light-secondary dark:text-text-dark-secondary">
+                      Google Maps API key not configured
+                    </p>
+                    <p className="text-sm text-text-light-muted dark:text-text-dark-muted mt-1">
+                      Please add VITE_GOOGLE_MAPS_API_KEY to your .env file
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Location Features */}
-            <div className="p-4 bg-gray-50 dark:bg-gray-900/50 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="p-5 bg-gray-50 dark:bg-gray-900/50 grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="text-center">
                 <p className="text-xs text-text-light-muted dark:text-text-dark-muted">Nearby Landmark</p>
                 <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Khare Sanskrutik Bhavan</p>
@@ -417,16 +525,18 @@ export default function Contact() {
 
         {/* Floating Action Button for Mobile */}
         <div className="fixed bottom-6 right-6 z-50 lg:hidden">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <button
               onClick={() => handleContactAction('whatsapp', { number: '8888800773' })}
-              className="w-14 h-14 rounded-full bg-green-500 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+              className="w-14 h-14 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+              aria-label="WhatsApp"
             >
               <MessageCircle className="w-6 h-6" />
             </button>
             <button
               onClick={() => handleContactAction('call', '8888800773')}
-              className="w-14 h-14 rounded-full bg-secondary-500 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+              className="w-14 h-14 rounded-full bg-gradient-to-r from-secondary-500 to-secondary-600 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+              aria-label="Call"
             >
               <Phone className="w-6 h-6" />
             </button>
