@@ -1,18 +1,10 @@
-// src/components/Contact.jsx
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../context/ThemeContext";
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle, AlertCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, MessageSquare, MessageCircle, Navigation, ExternalLink } from "lucide-react";
 
 export default function Contact() {
   const { isDark } = useTheme();
   const [visible, setVisible] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
   const sectionRef = useRef(null);
   const cursorGlowRef = useRef(null);
 
@@ -62,52 +54,60 @@ export default function Contact() {
     return () => observer.disconnect();
   }, []);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Validate form
-    if (!formData.name || !formData.phone || !formData.message) {
-      setSubmitStatus("error");
-      setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus(null), 3000);
-      return;
-    }
-
-    // Create WhatsApp message
-    const whatsappMessage = `*🏭 SUSHIRAJ ENTERPRISE - New Enquiry*%0A%0A
-*📝 Customer Details:*%0A
-*Name:* ${formData.name}%0A
-*📞 Phone:* ${formData.phone}%0A
-*💬 Message:* ${formData.message}%0A%0A
-*⏰ Time:* ${new Date().toLocaleString()}%0A
-*🌐 Source:* Website Contact Form%0A%0A
-_Please respond to this customer at the earliest._`;
-
-    // Open WhatsApp with trial number: 8208584646
-    window.open(`https://wa.me/918208584646?text=${whatsappMessage}`, '_blank');
-    
-    // Show success message
-    setSubmitStatus("success");
-    setFormData({ name: "", phone: "", message: "" });
-    setIsSubmitting(false);
-
-    setTimeout(() => setSubmitStatus(null), 5000);
-  };
+  const fullAddress = "F-7, Shubham Residency, near Khare Sanskrutik Bhavan, Vishrambag, Sangli, Maharashtra 416416, India";
+  const encodedAddress = encodeURIComponent(fullAddress);
+  const GOOGLE_MAPS_API_KEY = "AIzaSyCUuhDWxp4EB9lIFcEmAoNGoh40tx1lIK8";
 
   const contactInfo = [
-    { icon: Phone, title: "Call Us", details: ["8888800773", "97634 73858"], link: "tel:8888800773" },
-    { icon: Mail, title: "Email Us", details: ["Sushiraj.enterprises@gmail.com"], link: "mailto:Sushiraj.enterprises@gmail.com" },
-    { icon: MapPin, title: "Visit Us", details: ["Sangli, Maharashtra", "India"], link: "#" },
-    { icon: Clock, title: "Business Hours", details: ["Mon - Sat: 9:00 AM - 7:00 PM", "Sunday: Closed"], link: "#" },
+    { 
+      icon: Phone, 
+      title: "Call Us", 
+      details: ["8888800773", "97634 73858"], 
+      action: "call",
+      primaryNumber: "8888800773",
+      secondaryNumber: "9763473858"
+    },
+    { 
+      icon: MessageCircle, 
+      title: "WhatsApp", 
+      details: ["Chat with us on WhatsApp"], 
+      action: "whatsapp",
+      number: "8888800773"
+    },
+    { 
+      icon: Mail, 
+      title: "Email Us", 
+      details: ["Sushiraj.enterprises@gmail.com"], 
+      action: "email",
+      email: "Sushiraj.enterprises@gmail.com"
+    },
+    { 
+      icon: Navigation, 
+      title: "Get Directions", 
+      details: ["Open in Google Maps"], 
+      action: "map",
+      location: fullAddress
+    },
   ];
+
+  const handleContactAction = (action, data) => {
+    switch(action) {
+      case 'call':
+        window.location.href = `tel:${data}`;
+        break;
+      case 'whatsapp':
+        window.open(`https://wa.me/91${data.number}?text=Hello%21%20I%27m%20interested%20in%20your%20services.%20Can%20you%20please%20help%20me%3F`, '_blank');
+        break;
+      case 'email':
+        window.location.href = `mailto:${data.email}?subject=Inquiry%20about%20your%20services&body=Hello%2C%0A%0AI%20would%20like%20to%20know%20more%20about...%0A%0ARegards%2C%0A`;
+        break;
+      case 'map':
+        window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
+        break;
+      default:
+        break;
+    }
+  };
 
   // Floating particles config
   const particles = Array.from({ length: 12 }, (_, i) => ({
@@ -184,205 +184,252 @@ _Please respond to this customer at the earliest._`;
             className={`font-poppins text-base sm:text-lg text-text-light-secondary dark:text-text-dark-secondary max-w-2xl mx-auto fade-up ${visible ? "visible" : ""}`}
             style={{ animationDelay: "0.2s" }}
           >
-            Have questions? Fill the form and we'll respond on WhatsApp instantly
+            Choose your preferred way to connect with us - we're just a click away!
           </p>
         </div>
 
-        {/* Contact Grid */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-          
-          {/* Left Side - Contact Info Cards */}
-          <div className={`space-y-4 fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {contactInfo.map((info, index) => {
-                const Icon = info.icon;
-                return (
-                  <a
-                    key={index}
-                    href={info.link}
-                    className={`group block rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 shimmer-card ${
-                      isDark ? "bg-dark-card" : "bg-white"
-                    } shadow-lg border border-gray-200 dark:border-gray-800 hover:border-secondary-500/40`}
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                      <Icon className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="font-poppins font-semibold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">
-                      {info.title}
-                    </h3>
-                    {info.details.map((detail, i) => (
-                      <p key={i} className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                        {detail}
-                      </p>
-                    ))}
-                  </a>
-                );
-              })}
-            </div>
-
-            {/* WhatsApp Card */}
-            <div className={`rounded-2xl p-5 ${
-              isDark ? "bg-dark-card" : "bg-white"
-            } shadow-lg border border-green-500/20 bg-gradient-to-r from-green-500/5 to-transparent`}>
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-[#25D366]/10 flex items-center justify-center">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 21L4.65 17.5C3.874 16.188 3.5 14.682 3.5 13.125C3.5 8.062 7.562 4 12.625 4C17.688 4 21.75 8.062 21.75 13.125C21.75 18.188 17.688 22.25 12.625 22.25C11.1 22.25 9.612 21.887 8.25 21.2L3 21Z" stroke="#25D366" strokeWidth="2" fill="none"/>
-                    <path d="M9.5 9.5C9.5 9.5 10.5 8.5 11.5 10C12.5 11.5 13 12 14 13" stroke="#25D366" strokeWidth="2" strokeLinecap="round"/>
-                  </svg>
+        {/* Contact Info Grid - Direct Action Cards */}
+        <div className={`max-w-6xl mx-auto fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {contactInfo.map((info, index) => {
+              const Icon = info.icon;
+              return (
+                <div
+                  key={index}
+                  className={`group rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 shimmer-card ${
+                    isDark ? "bg-dark-card" : "bg-white"
+                  } shadow-lg border border-gray-200 dark:border-gray-800 hover:border-secondary-500/40 cursor-pointer`}
+                  onClick={() => {
+                    if (info.action === 'call') {
+                      handleContactAction('call', info.primaryNumber);
+                    } else if (info.action === 'whatsapp') {
+                      handleContactAction('whatsapp', { number: info.number });
+                    } else if (info.action === 'email') {
+                      handleContactAction('email', { email: info.email });
+                    } else if (info.action === 'map') {
+                      handleContactAction('map', { location: info.location });
+                    }
+                  }}
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  <h3 className="font-poppins font-semibold text-lg text-text-light-primary dark:text-text-dark-primary mb-2">
+                    {info.title}
+                  </h3>
+                  {info.details.map((detail, i) => (
+                    <p key={i} className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
+                      {detail}
+                    </p>
+                  ))}
+                  
+                  {/* Action Button */}
+                  <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+                    <span className="text-secondary-500 text-sm font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+                      {info.action === 'call' && '📞 Tap to Call'}
+                      {info.action === 'whatsapp' && '💬 Tap to Chat'}
+                      {info.action === 'email' && '✉️ Tap to Email'}
+                      {info.action === 'map' && '📍 Tap for Directions'}
+                      <span className="text-base">→</span>
+                    </span>
+                  </div>
                 </div>
-                <div className="flex-1">
+              );
+            })}
+          </div>
+
+          {/* Phone Numbers with Direct Actions */}
+          <div className={`mt-6 rounded-2xl p-5 ${
+            isDark ? "bg-dark-card" : "bg-white"
+          } shadow-lg border border-green-500/20 bg-gradient-to-r from-green-500/5 to-transparent`}>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                  <Phone className="w-7 h-7 text-green-500" />
+                </div>
+                <div>
                   <h3 className="font-poppins font-semibold text-text-light-primary dark:text-text-dark-primary">
-                    Quick Response on WhatsApp
+                    Quick Connect
                   </h3>
                   <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
-                    Get reply within minutes
+                    Tap any number to call directly
                   </p>
                 </div>
-                <a
-                  href="https://wa.me/918208584646"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-lg bg-[#25D366] text-white text-sm font-medium hover:bg-[#20b859] transition"
+              </div>
+              
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <button
+                  onClick={() => handleContactAction('call', '8888800773')}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-secondary-500 to-secondary-600 text-white font-poppins font-medium hover:shadow-lg transition-all"
                 >
-                  Chat Now
-                </a>
+                  <Phone className="w-4 h-4" />
+                  8888800773
+                </button>
+                
+                <button
+                  onClick={() => handleContactAction('call', '9763473858')}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl border-2 border-secondary-500 text-secondary-500 font-poppins font-medium hover:bg-secondary-500 hover:text-white transition-all"
+                >
+                  <Phone className="w-4 h-4" />
+                  97634 73858
+                </button>
+
+                <button
+                  onClick={() => handleContactAction('whatsapp', { number: '8888800773' })}
+                  className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-green-600 text-white font-poppins font-medium hover:bg-green-700 transition-all"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Right Side - Contact Form */}
-          <div className={`fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.4s" }}>
-            <div className={`rounded-2xl p-6 sm:p-8 shimmer-card ${
+          {/* Quick Response & Support Hours */}
+          <div className="mt-4 grid sm:grid-cols-2 gap-4">
+            <div className={`rounded-2xl p-5 ${
               isDark ? "bg-dark-card" : "bg-white"
-            } shadow-lg border border-gray-200 dark:border-gray-800`}>
-              <h3 className="font-poppins font-bold text-2xl text-text-light-primary dark:text-text-dark-primary mb-2">
-                Send us a Message
-              </h3>
-              <p className="text-text-light-secondary dark:text-text-dark-secondary text-sm mb-6">
-                We'll respond on WhatsApp within 24 hours
-              </p>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                    Your Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary-500 ${
-                      isDark 
-                        ? "bg-dark-surface border-gray-700 text-text-dark-primary focus:border-secondary-500" 
-                        : "bg-white border-gray-300 text-text-light-primary focus:border-secondary-500"
-                    }`}
-                    placeholder="Enter your name"
-                  />
+            } shadow-lg border border-blue-500/20 bg-gradient-to-r from-blue-500/5 to-transparent`}>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center">
+                  <MessageSquare className="w-6 h-6 text-blue-500" />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                    Phone Number * (For WhatsApp)
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary-500 ${
-                      isDark 
-                        ? "bg-dark-surface border-gray-700 text-text-dark-primary focus:border-secondary-500" 
-                        : "bg-white border-gray-300 text-text-light-primary focus:border-secondary-500"
-                    }`}
-                    placeholder="Enter your WhatsApp number"
-                  />
+                  <h3 className="font-poppins font-semibold text-text-light-primary dark:text-text-dark-primary">
+                    Quick Response
+                  </h3>
+                  <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
+                    We reply within 24 hours
+                  </p>
                 </div>
+                <div className="ml-auto text-right">
+                  <p className="text-xs text-text-light-muted dark:text-text-dark-muted">Average</p>
+                  <p className="text-sm font-semibold text-blue-500">&lt; 12 hours</p>
+                </div>
+              </div>
+            </div>
 
+            <div className={`rounded-2xl p-5 ${
+              isDark ? "bg-dark-card" : "bg-white"
+            } shadow-lg border border-purple-500/20 bg-gradient-to-r from-purple-500/5 to-transparent`}>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-purple-500" />
+                </div>
                 <div>
-                  <label className="block text-sm font-medium text-text-light-primary dark:text-text-dark-primary mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows="4"
-                    className={`w-full px-4 py-3 rounded-xl border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary-500 ${
-                      isDark 
-                        ? "bg-dark-surface border-gray-700 text-text-dark-primary focus:border-secondary-500" 
-                        : "bg-white border-gray-300 text-text-light-primary focus:border-secondary-500"
-                    }`}
-                    placeholder="Tell us about your requirement..."
-                  />
+                  <h3 className="font-poppins font-semibold text-text-light-primary dark:text-text-dark-primary">
+                    Business Hours
+                  </h3>
+                  <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
+                    Mon - Sat: 9:00 AM - 7:00 PM
+                  </p>
+                  <p className="text-xs text-text-light-muted dark:text-text-dark-muted">
+                    Sunday: Closed
+                  </p>
                 </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full py-3 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-white font-poppins font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
-                    isSubmitting ? "opacity-70 cursor-not-allowed" : "hover:shadow-lg hover:-translate-y-0.5"
-                  }`}
-                >
-                  {isSubmitting ? (
-                    "Sending..."
-                  ) : (
-                    <>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 21L4.65 17.5C3.874 16.188 3.5 14.682 3.5 13.125C3.5 8.062 7.562 4 12.625 4C17.688 4 21.75 8.062 21.75 13.125C21.75 18.188 17.688 22.25 12.625 22.25C11.1 22.25 9.612 21.887 8.25 21.2L3 21Z" stroke="currentColor" strokeWidth="2" fill="none"/>
-                        <path d="M9.5 9.5C9.5 9.5 10.5 8.5 11.5 10C12.5 11.5 13 12 14 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                      </svg>
-                      Send on WhatsApp
-                    </>
-                  )}
-                </button>
-
-                {submitStatus === "success" && (
-                  <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm text-center flex items-center justify-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
-                    Message sent! We'll contact you on WhatsApp shortly.
-                  </div>
-                )}
-
-                {submitStatus === "error" && (
-                  <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm text-center flex items-center justify-center gap-2">
-                    <AlertCircle className="w-4 h-4" />
-                    Please fill all fields correctly.
-                  </div>
-                )}
-              </form>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Map Section */}
-        <div className={`mt-12 fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.45s" }}>
+        {/* Map Section with Satellite/Street View */}
+        <div className={`mt-12 max-w-6xl mx-auto fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.45s" }}>
           <div className={`rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 ${
             isDark ? "bg-dark-card" : "bg-white"
           }`}>
-            <div className="p-4 border-b border-gray-200 dark:border-gray-800">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-secondary-500" />
                 <span className="font-poppins font-medium text-text-light-primary dark:text-text-dark-primary">
-                  Find Us Here
+                  Our Location
                 </span>
               </div>
-            </div>
-            <div className="h-64 bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-secondary-500 mx-auto mb-2" />
-                <p className="text-text-light-secondary dark:text-text-dark-secondary text-sm">
-                  Sangli, Maharashtra, India
-                </p>
-                <p className="text-text-light-muted dark:text-text-dark-muted text-xs mt-1">
-                  Google Maps Integration Available
-                </p>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleContactAction('map', { location: fullAddress })}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-secondary-500/10 text-secondary-500 text-sm font-medium hover:bg-secondary-500/20 transition-all"
+                >
+                  <Navigation className="w-4 h-4" />
+                  Directions
+                </button>
+                <a
+                  href={`https://www.google.com/maps/place/${encodedAddress}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-text-light-secondary dark:text-text-dark-secondary text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-all"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Full Screen
+                </a>
               </div>
             </div>
+            
+            {/* Address Display */}
+            <div className="p-4 bg-secondary-500/5 border-b border-gray-200 dark:border-gray-800">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-secondary-500 mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-poppins font-medium text-text-light-primary dark:text-text-dark-primary">
+                    F-7, Shubham Residency
+                  </p>
+                  <p className="text-sm text-text-light-secondary dark:text-text-dark-secondary">
+                    near Khare Sanskrutik Bhavan, Vishrambag, <br />
+                    Sangli, Maharashtra 416416, India
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Embedded Google Map with Street/Satellite View */}
+            <div className="relative w-full h-[400px] lg:h-[450px] bg-gray-100 dark:bg-gray-900">
+              <iframe
+                title="Sushiraj Enterprises Location - Shubham Residency, Sangli"
+                src={`https://www.google.com/maps/embed/v1/place?key=${GOOGLE_MAPS_API_KEY}&q=${encodedAddress}&zoom=18&maptype=roadmap`}
+                className="absolute inset-0 w-full h-full"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            {/* Location Features */}
+            <div className="p-4 bg-gray-50 dark:bg-gray-900/50 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="text-center">
+                <p className="text-xs text-text-light-muted dark:text-text-dark-muted">Nearby Landmark</p>
+                <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Khare Sanskrutik Bhavan</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-text-light-muted dark:text-text-dark-muted">Area</p>
+                <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Vishrambag</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-text-light-muted dark:text-text-dark-muted">City</p>
+                <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">Sangli</p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs text-text-light-muted dark:text-text-dark-muted">PIN Code</p>
+                <p className="text-sm font-medium text-text-light-primary dark:text-text-dark-primary">416416</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating Action Button for Mobile */}
+        <div className="fixed bottom-6 right-6 z-50 lg:hidden">
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={() => handleContactAction('whatsapp', { number: '8888800773' })}
+              className="w-14 h-14 rounded-full bg-green-500 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+            >
+              <MessageCircle className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() => handleContactAction('call', '8888800773')}
+              className="w-14 h-14 rounded-full bg-secondary-500 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+            >
+              <Phone className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </div>
@@ -510,6 +557,11 @@ _Please respond to this customer at the earliest._`;
         }
         .fade-up.visible {
           animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
         }
 
         @media (prefers-reduced-motion: reduce) {
