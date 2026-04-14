@@ -2,9 +2,8 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "../context/ThemeContext";
 
 export default function SushirajHero() {
-  const { theme, toggleTheme, isDark } = useTheme();
+  const { isDark } = useTheme();
   const [visible, setVisible] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const videoRef = useRef(null);
   const animationFrameRef = useRef(null);
@@ -128,49 +127,13 @@ export default function SushirajHero() {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false);
     }
   };
 
   // SVG Icons
-  const MenuIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 12H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <path d="M3 6H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <path d="M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    </svg>
-  );
-
-  const CloseIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-      <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    </svg>
-  );
-
   const StarIcon = () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
-    </svg>
-  );
-
-  const SunIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2"/>
-      <line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" strokeWidth="2"/>
-      <line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" strokeWidth="2"/>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" strokeWidth="2"/>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" strokeWidth="2"/>
-      <line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" strokeWidth="2"/>
-      <line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" strokeWidth="2"/>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" strokeWidth="2"/>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" strokeWidth="2"/>
-    </svg>
-  );
-
-  const MoonIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" strokeWidth="2" fill="none"/>
     </svg>
   );
 
@@ -193,12 +156,6 @@ export default function SushirajHero() {
     </svg>
   );
 
-  const WaterDropIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2.69L5 10.19C5 13.83 8.13 17 12 17C15.87 17 19 13.83 19 10.19L12 2.69Z" fill="currentColor"/>
-    </svg>
-  );
-
   const ArrowRightIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -208,8 +165,8 @@ export default function SushirajHero() {
 
   return (
     <div className="relative min-h-screen overflow-hidden font-poppins">
-      {/* Video Background with Fallback */}
-      <div className="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
+      {/* Video Background - Only for Hero Section */}
+      <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
         {/* Fallback Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-secondary-500"></div>
         
@@ -247,194 +204,87 @@ export default function SushirajHero() {
         <div className="absolute inset-0 bg-black/40 dark:bg-black/50"></div>
       </div>
 
-      {/* Content */}
-      <div className="relative z-10">
-        {/* Navigation Bar */}
-        <nav className="px-4 sm:px-8 md:px-[60px] lg:px-[120px] py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <a href="#home" onClick={(e) => handleNavClick(e, '#home')} className="flex items-center gap-2 group">
-              <div className="text-secondary-500 group-hover:scale-110 transition-transform duration-300">
-                <WaterDropIcon />
+      {/* Hero Content */}
+      <div className="px-4 sm:px-8 md:px-[60px] lg:px-[120px] min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center w-full py-12 sm:py-16">
+          
+          {/* Badge Component */}
+          <div className={`fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.1s" }}>
+            <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 sm:mb-[34px]">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-[#0e1311] rounded-full shadow-sm">
+                <div className="text-white">
+                  <StarIcon />
+                </div>
+                <span className="font-poppins font-regular text-sm text-white">Premium Quality</span>
               </div>
-              <div className="font-poppins font-semibold text-xl sm:text-2xl tracking-[-0.5px] text-white">
-                Sushiraj<span className="text-secondary-500">Enterprise</span>
+              <div className="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full shadow-sm border border-white/20">
+                <span className="font-poppins font-regular text-sm text-white">Since 2020 | Trusted Brand</span>
               </div>
-            </a>
-
-            {/* Desktop Menu Items */}
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-              {["Home", "About", "Services", "Products", "Contact"].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  onClick={(e) => handleNavClick(e, `#${item.toLowerCase()}`)}
-                  className="group relative px-1 py-2"
-                >
-                  <span className="font-poppins font-medium text-base tracking-[-0.2px] text-white/90 hover:text-secondary-500 transition-colors duration-300">
-                    {item}
-                  </span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary-500 group-hover:w-full transition-all duration-300"></span>
-                </a>
-              ))}
             </div>
+          </div>
 
-            {/* Desktop Right Side Buttons */}
-            <div className="hidden sm:flex items-center gap-3">
-              {/* Theme Toggle Button */}
-              <button
-                onClick={toggleTheme}
-                className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 hover:border-secondary-500 text-white hover:text-secondary-500 transition-all duration-300 flex items-center justify-center"
-                aria-label="Toggle theme"
-              >
-                {isDark ? <SunIcon /> : <MoonIcon />}
-              </button>
-              
-              <button 
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="px-5 py-2 bg-white/10 backdrop-blur-sm border border-white/30 hover:border-secondary-500 text-white font-poppins font-medium text-base rounded-lg transition-all hover:bg-white/20"
-              >
-                Support
-              </button>
-              <button 
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="px-5 py-2 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-medium text-base rounded-lg transition-all shadow-lg hover:shadow-glow dark:shadow-dark-md dark:hover:shadow-dark-glow"
-              >
-                Get Quote
-              </button>
-            </div>
+          {/* Main Headline */}
+          <h1 className={`fade-up text-center font-poppins font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] tracking-[-1px] sm:tracking-[-2px] lg:tracking-[-3px] text-white mb-4 sm:mb-6 lg:mb-[34px] ${visible ? "visible" : ""}`} style={{ animationDelay: "0.2s" }}>
+            Pure Water
+            <br />
+            <span className="text-secondary-500">Healthy Life</span>
+          </h1>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden text-white"
+          {/* Subtitle */}
+          <p className={`fade-up text-center font-poppins font-medium text-base sm:text-lg lg:text-[20px] tracking-[-0.2px] lg:tracking-[-0.3px] text-white/90 max-w-[90%] sm:max-w-[80%] lg:max-w-[736px] mb-8 sm:mb-10 lg:mb-12 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
+            Premium RO water purifiers, water conditioners, and professional AMC services for your home and business.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className={`fade-up flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[600px] ${visible ? "visible" : ""}`} style={{ animationDelay: "0.4s" }}>
+            <button 
+              onClick={(e) => handleNavClick(e, '#contact')}
+              className="group w-full sm:w-auto px-8 py-4 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-semibold text-base sm:text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-glow flex items-center justify-center gap-3"
             >
-              {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+              <MessageIcon />
+              Get Free Quote
+              <ArrowRightIcon />
+            </button>
+
+            <button 
+              onClick={(e) => handleNavClick(e, '#contact')}
+              className="group w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 hover:border-secondary-500 text-white font-poppins font-medium text-base sm:text-lg rounded-xl transition-all duration-300 hover:bg-white/20 flex items-center justify-center gap-3"
+            >
+              <PhoneIcon />
+              Call: 8888800773
             </button>
           </div>
 
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="lg:hidden mt-4 py-4 border-t border-white/20">
-              <div className="flex flex-col gap-3">
-                {["Home", "About", "Services", "Products", "Contact"].map((item) => (
-                  <a
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    onClick={(e) => handleNavClick(e, `#${item.toLowerCase()}`)}
-                    className="font-poppins font-medium text-base text-white py-2 hover:text-secondary-500 transition-colors"
-                  >
-                    {item}
-                  </a>
-                ))}
-                <div className="flex items-center gap-3 pt-2">
-                  {/* Theme Toggle for Mobile */}
-                  <button
-                    onClick={toggleTheme}
-                    className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white flex items-center justify-center"
-                  >
-                    {isDark ? <SunIcon /> : <MoonIcon />}
-                  </button>
-                  <button 
-                    onClick={(e) => handleNavClick(e, '#contact')}
-                    className="flex-1 py-2 text-white font-poppins font-medium text-base bg-white/10 rounded-lg border border-white/30"
-                  >
-                    Support
-                  </button>
-                  <button 
-                    onClick={(e) => handleNavClick(e, '#contact')}
-                    className="flex-1 py-2 bg-secondary-500 text-white font-poppins font-medium text-base rounded-lg"
-                  >
-                    Get Quote
-                  </button>
-                </div>
-              </div>
+          {/* Additional CTA - WhatsApp */}
+          <div className={`fade-up mt-6 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.45s" }}>
+            <a 
+              href="https://wa.me/918888800773"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-2 px-5 py-2 bg-[#25D366]/20 backdrop-blur-sm border border-[#25D366]/40 hover:border-[#25D366] rounded-full transition-all duration-300"
+            >
+              <WhatsAppIcon />
+              <span className="font-poppins text-sm text-white/80 group-hover:text-white">Chat on WhatsApp</span>
+            </a>
+          </div>
+
+          {/* Trust Badges */}
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-10 sm:mt-12 lg:mt-14">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
+              <span className="font-poppins text-xs sm:text-sm text-white/80">5000+ Happy Families</span>
             </div>
-          )}
-        </nav>
-
-        {/* Hero Content */}
-        <div className="px-4 sm:px-8 md:px-[60px] lg:px-[120px] -mt-[30px] sm:-mt-[40px] lg:-mt-[50px]">
-          <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)] py-12 sm:py-16">
-            
-            {/* Badge Component */}
-            <div className={`fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.1s" }}>
-              <div className="flex flex-col sm:flex-row items-center gap-3 mb-6 sm:mb-[34px]">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-[#0e1311] rounded-full shadow-sm">
-                  <div className="text-white">
-                    <StarIcon />
-                  </div>
-                  <span className="font-poppins font-regular text-sm text-white">Premium Quality</span>
-                </div>
-                <div className="px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full shadow-sm border border-white/20">
-                  <span className="font-poppins font-regular text-sm text-white">Since 2020 | Trusted Brand</span>
-                </div>
-              </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
+              <span className="font-poppins text-xs sm:text-sm text-white/80">1000+ Installations</span>
             </div>
-
-            {/* Main Headline */}
-            <h1 className={`fade-up text-center font-poppins font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[80px] tracking-[-1px] sm:tracking-[-2px] lg:tracking-[-3px] text-white mb-4 sm:mb-6 lg:mb-[34px] ${visible ? "visible" : ""}`} style={{ animationDelay: "0.2s" }}>
-              Pure Water
-              <br />
-              <span className="text-secondary-500">Healthy Life</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className={`fade-up text-center font-poppins font-medium text-base sm:text-lg lg:text-[20px] tracking-[-0.2px] lg:tracking-[-0.3px] text-white/90 max-w-[90%] sm:max-w-[80%] lg:max-w-[736px] mb-8 sm:mb-10 lg:mb-12 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
-              Premium RO water purifiers, filtration systems, and professional AMC services for your home and business.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className={`fade-up flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[600px] ${visible ? "visible" : ""}`} style={{ animationDelay: "0.4s" }}>
-              {/* Primary CTA - Get Quote */}
-              <button 
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="group w-full sm:w-auto px-8 py-4 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-semibold text-base sm:text-lg rounded-xl transition-all duration-300 shadow-lg hover:shadow-glow dark:shadow-dark-md dark:hover:shadow-dark-glow flex items-center justify-center gap-3"
-              >
-                <MessageIcon />
-                Get Free Quote
-                <ArrowRightIcon />
-              </button>
-
-              {/* Secondary CTA - Call Now */}
-              <button 
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="group w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 hover:border-secondary-500 text-white font-poppins font-medium text-base sm:text-lg rounded-xl transition-all duration-300 hover:bg-white/20 flex items-center justify-center gap-3"
-              >
-                <PhoneIcon />
-                Call: +91-XXXXXXXXXX
-              </button>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
+              <span className="font-poppins text-xs sm:text-sm text-white/80">24/7 Support</span>
             </div>
-
-            {/* Additional CTA - WhatsApp */}
-            <div className={`fade-up mt-6 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.45s" }}>
-              <button 
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className="group flex items-center gap-2 px-5 py-2 bg-[#25D366]/20 backdrop-blur-sm border border-[#25D366]/40 hover:border-[#25D366] rounded-full transition-all duration-300"
-              >
-                <WhatsAppIcon />
-                <span className="font-poppins text-sm text-white/80 group-hover:text-white">Chat on WhatsApp</span>
-              </button>
-            </div>
-
-            {/* Trust Badges */}
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mt-10 sm:mt-12 lg:mt-14">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
-                <span className="font-poppins text-xs sm:text-sm text-white/80">5000+ Happy Families</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
-                <span className="font-poppins text-xs sm:text-sm text-white/80">1000+ Installations</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
-                <span className="font-poppins text-xs sm:text-sm text-white/80">24/7 Support</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
-                <span className="font-poppins text-xs sm:text-sm text-white/80">ISO Certified</span>
-              </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-secondary-500 rounded-full"></div>
+              <span className="font-poppins text-xs sm:text-sm text-white/80">5 Year Warranty</span>
             </div>
           </div>
         </div>
@@ -460,26 +310,6 @@ export default function SushirajHero() {
         
         .fade-up.visible {
           animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        
-        .animation-delay-100 {
-          animation-delay: 0.1s;
-        }
-        
-        .animation-delay-200 {
-          animation-delay: 0.2s;
-        }
-        
-        .animation-delay-300 {
-          animation-delay: 0.3s;
-        }
-        
-        .animation-delay-400 {
-          animation-delay: 0.4s;
-        }
-        
-        .animation-delay-500 {
-          animation-delay: 0.5s;
         }
       `}</style>
     </div>
