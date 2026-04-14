@@ -87,11 +87,11 @@ export default function Navbar() {
 
           {/* Desktop Menu Items */}
           <div className="hidden lg:flex items-center gap-4 xl:gap-8">
-            {["Home", "About", "Services", "Products", "Contact"].map((item) => (
+            {["Home", "About", "Services", "Products", "How It Works", "Contact"].map((item) => (
               <a
                 key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={(e) => handleNavClick(e, `#${item.toLowerCase()}`)}
+                href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+                onClick={(e) => handleNavClick(e, `#${item.toLowerCase().replace(/ /g, '-')}`)}
                 className="group relative px-1 py-2"
               >
                 <span className="font-poppins font-medium text-sm xl:text-base tracking-[-0.2px] text-gray-700 dark:text-gray-200 hover:text-secondary-500 transition-colors duration-300">
@@ -135,7 +135,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Menu - Improved Responsive */}
+        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className={`lg:hidden mt-3 py-3 rounded-2xl overflow-hidden transition-all duration-300 ${
             isScrolled 
@@ -143,11 +143,11 @@ export default function Navbar() {
               : 'bg-white dark:bg-dark-bg shadow-lg border border-gray-200 dark:border-gray-700'
           }`}>
             <div className="flex flex-col gap-1 px-3">
-              {["Home", "About", "Services", "Products", "Contact"].map((item) => (
+              {["Home", "About", "Services", "Products", "How It Works", "Contact"].map((item) => (
                 <a
                   key={item}
-                  href={`#${item.toLowerCase()}`}
-                  onClick={(e) => handleNavClick(e, `#${item.toLowerCase()}`)}
+                  href={`#${item.toLowerCase().replace(/ /g, '-')}`}
+                  onClick={(e) => handleNavClick(e, `#${item.toLowerCase().replace(/ /g, '-')}`)}
                   className="font-poppins font-medium text-base py-3 px-4 rounded-xl transition-colors text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-secondary-500"
                 >
                   {item}
