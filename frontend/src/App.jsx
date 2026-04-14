@@ -222,7 +222,7 @@ const LOADING_CSS = `
   }
 `;
 
-function NikeLoader({ progress, activeStep, fadeOut, loadingSteps }) {
+function NikeLoader({ progress, activeStep, fadeOut, loadingSteps, videoStatus }) {
   return (
     <div className={`sl-root${fadeOut ? ' fade-out' : ''}`}>
       {/* diagonal bg slash */}
@@ -262,7 +262,11 @@ function NikeLoader({ progress, activeStep, fadeOut, loadingSteps }) {
 
       {/* bottom status */}
       <div className="sl-status-bar">
-        <span className="sl-status-text">{loadingSteps[activeStep]?.text ?? 'Loading'}</span>
+        <span className="sl-status-text">
+          {videoStatus === 'loading' && 'Loading Video...'}
+          {videoStatus === 'loaded' && loadingSteps[activeStep]?.text}
+          {videoStatus === 'error' && 'Preparing Experience'}
+        </span>
         <span className="sl-pct">{Math.round(progress)}%</span>
       </div>
 
@@ -281,6 +285,8 @@ function App() {
   const [progress, setProgress]     = useState(0);
   const [fadeOut, setFadeOut]       = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [videoStatus, setVideoStatus] = useState('loading'); // 'loading', 'loaded', 'error'
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   const loadingSteps = [
     { text: 'Initializing Systems',   progress: 20  },
@@ -290,6 +296,32 @@ function App() {
     { text: 'Ready',                  progress: 100 },
   ];
 
+  // Function to check video loading status
+  const checkVideoStatus = () => {
+    const video = document.querySelector('video');
+    if (video) {
+      if (video.readyState >= 3) {
+        setVideoStatus('loaded');
+        setVideoLoaded(true);
+      } else {
+        video.addEventListener('canplaythrough', () => {
+          setVideoStatus('loaded');
+          setVideoLoaded(true);
+        }, { once: true });
+        video.addEventListener('error', () => {
+          setVideoStatus('error');
+          setVideoLoaded(true); // Continue even if video fails
+        }, { once: true });
+      }
+    } else {
+      // If no video found after delay, continue
+      setTimeout(() => {
+        setVideoLoaded(true);
+        setVideoStatus('error');
+      }, 3000);
+    }
+  };
+
   useEffect(() => {
     if (!document.getElementById('sl-styles')) {
       const style = document.createElement('style');
@@ -298,9 +330,18 @@ function App() {
       document.head.appendChild(style);
     }
 
+    // Start checking for video after a short delay
+    const videoCheckTimer = setTimeout(() => {
+      checkVideoStatus();
+    }, 500);
+
+    // Progress animation
     const interval = setInterval(() => {
       setProgress(prev => {
-        if (prev >= 100) { clearInterval(interval); return 100; }
+        if (prev >= 100) { 
+          clearInterval(interval); 
+          return 100; 
+        }
         let inc = 5;
         if (prev > 80) inc = 2;
         else if (prev > 60) inc = 3;
@@ -309,13 +350,30 @@ function App() {
       });
     }, 80);
 
-    const timer = setTimeout(() => {
-      setFadeOut(true);
-      setTimeout(() => setLoading(false), 800);
-    }, 2600);
+    // Wait for both progress to reach 100 AND video to load
+    const checkComplete = setInterval(() => {
+      if (progress >= 100 && videoLoaded) {
+        clearInterval(checkComplete);
+        setFadeOut(true);
+        setTimeout(() => setLoading(false), 800);
+      }
+    }, 100);
 
-    return () => { clearInterval(interval); clearTimeout(timer); };
-  }, []);
+    // Fallback timeout (max 5 seconds)
+    const fallbackTimer = setTimeout(() => {
+      if (!videoLoaded) {
+        setVideoLoaded(true);
+        setVideoStatus('error');
+      }
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(videoCheckTimer);
+      clearTimeout(fallbackTimer);
+      clearInterval(checkComplete);
+    };
+  }, [progress, videoLoaded]);
 
   useEffect(() => {
     const idx = loadingSteps.findIndex(s => s.progress > progress);
@@ -329,6 +387,7 @@ function App() {
         activeStep={activeStep}
         fadeOut={fadeOut}
         loadingSteps={loadingSteps}
+        videoStatus={videoStatus}
       />
     );
   }
