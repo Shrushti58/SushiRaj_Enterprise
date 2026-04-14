@@ -137,7 +137,7 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Right Side Buttons */}
-            <div className="hidden sm:flex items-center gap-2 md:gap-3">
+            <div className="hidden lg:flex items-center gap-2 md:gap-3">
               <LanguageSwitcher />
               
               <button
@@ -160,19 +160,32 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden text-gray-800 dark:text-white p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-            </button>
+            {/* Mobile Right Side Icons - Language & Theme */}
+            <div className="flex lg:hidden items-center gap-2">
+              <LanguageSwitcher />
+              
+              <button
+                onClick={toggleTheme}
+                className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center bg-gray-100 dark:bg-dark-card text-gray-700 dark:text-white"
+                aria-label="Toggle theme"
+              >
+                {isDark ? <SunIcon /> : <MoonIcon />}
+              </button>
+              
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-gray-800 dark:text-white p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Panel */}
       {mobileMenuOpen && (
         <>
           {/* Backdrop */}
@@ -181,7 +194,7 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
           />
           
-          {/* Mobile Menu Panel */}
+          {/* Mobile Menu Content */}
           <div className={`fixed top-[60px] left-0 right-0 bottom-0 z-40 lg:hidden transform transition-transform duration-300 ease-out ${
             mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
           }`}>
@@ -203,26 +216,12 @@ export default function Navbar() {
                 ))}
                 
                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <LanguageSwitcher />
-                      
-                      <button
-                        onClick={toggleTheme}
-                        className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center bg-gray-100 dark:bg-dark-card text-gray-700 dark:text-white hover:border-secondary-500 transition-all"
-                        aria-label="Toggle theme"
-                      >
-                        {isDark ? <SunIcon /> : <MoonIcon />}
-                      </button>
-                    </div>
-                    
-                    <button 
-                      onClick={(e) => handleNavClick(e, '#contact')}
-                      className="flex-1 py-2.5 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-medium text-sm rounded-lg transition-all active:scale-95"
-                    >
-                      {t('nav.getQuote')}
-                    </button>
-                  </div>
+                  <button 
+                    onClick={(e) => handleNavClick(e, '#contact')}
+                    className="w-full py-2.5 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-medium text-sm rounded-lg transition-all active:scale-95"
+                  >
+                    {t('nav.getQuote')}
+                  </button>
                 </div>
               </div>
             </div>
