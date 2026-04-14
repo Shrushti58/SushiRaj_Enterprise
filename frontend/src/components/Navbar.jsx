@@ -103,7 +103,7 @@ export default function Navbar() {
       }`}>
         <div className="px-4 sm:px-6 md:px-8 lg:px-[60px] xl:px-[120px] py-2 sm:py-3 md:py-4">
           <div className="flex items-center justify-between">
-            {/* Logo */}
+            {/* Logo - Left Side */}
             <a 
               href="#home" 
               onClick={(e) => handleNavClick(e, '#home')} 
@@ -119,7 +119,7 @@ export default function Navbar() {
               </div>
             </a>
 
-            {/* Desktop Menu Items */}
+            {/* Desktop Menu - Hidden on mobile */}
             <div className="hidden lg:flex items-center gap-4 xl:gap-8">
               {navItems.map((item) => (
                 <a
@@ -136,7 +136,7 @@ export default function Navbar() {
               ))}
             </div>
 
-            {/* Desktop Right Side Buttons */}
+            {/* Desktop Right Side Buttons - Hidden on mobile */}
             <div className="hidden lg:flex items-center gap-2 md:gap-3">
               <LanguageSwitcher />
               
@@ -160,19 +160,8 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Mobile Right Side Icons - Language & Theme */}
+            {/* Mobile - Only Hamburger Menu Button */}
             <div className="flex lg:hidden items-center gap-2">
-              <LanguageSwitcher />
-              
-              <button
-                onClick={toggleTheme}
-                className="w-8 h-8 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center bg-gray-100 dark:bg-dark-card text-gray-700 dark:text-white"
-                aria-label="Toggle theme"
-              >
-                {isDark ? <SunIcon /> : <MoonIcon />}
-              </button>
-              
-              {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="text-gray-800 dark:text-white p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
@@ -185,7 +174,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu Panel */}
+      {/* Mobile Menu Panel - Contains everything */}
       {mobileMenuOpen && (
         <>
           {/* Backdrop */}
@@ -204,6 +193,7 @@ export default function Navbar() {
                 : 'bg-white dark:bg-dark-bg'
             } shadow-xl border-t border-gray-200 dark:border-gray-800`}>
               <div className="flex flex-col py-4 px-4">
+                {/* Navigation Links */}
                 {navItems.map((item) => (
                   <a
                     key={item.key}
@@ -215,10 +205,32 @@ export default function Navbar() {
                   </a>
                 ))}
                 
-                <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                {/* Divider */}
+                <div className="my-3 border-t border-gray-200 dark:border-gray-700" />
+                
+                {/* Language Switcher */}
+                <div className="py-2 px-4">
+                  <p className="text-xs text-text-light-muted dark:text-text-dark-muted mb-2 font-poppins">Select Language</p>
+                  <LanguageSwitcher />
+                </div>
+                
+                {/* Theme Toggle */}
+                <div className="py-2 px-4">
+                  <p className="text-xs text-text-light-muted dark:text-text-dark-muted mb-2 font-poppins">Theme</p>
+                  <button
+                    onClick={toggleTheme}
+                    className="w-full flex items-center justify-between py-2.5 px-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  >
+                    <span className="font-poppins text-sm">Switch to {isDark ? 'Light' : 'Dark'} Mode</span>
+                    {isDark ? <SunIcon /> : <MoonIcon />}
+                  </button>
+                </div>
+                
+                {/* Get Quote Button */}
+                <div className="mt-4 pt-2 px-4">
                   <button 
                     onClick={(e) => handleNavClick(e, '#contact')}
-                    className="w-full py-2.5 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-medium text-sm rounded-lg transition-all active:scale-95"
+                    className="w-full py-3 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-semibold text-base rounded-xl transition-all active:scale-95 shadow-md"
                   >
                     {t('nav.getQuote')}
                   </button>

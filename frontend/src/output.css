@@ -1003,6 +1003,11 @@ body {
   margin-right: auto;
 }
 
+.my-3{
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
 .mb-1{
   margin-bottom: 0.25rem;
 }
@@ -2544,6 +2549,10 @@ body {
 
 .pt-4{
   padding-top: 1rem;
+}
+
+.pt-2{
+  padding-top: 0.5rem;
 }
 
 .text-center{
