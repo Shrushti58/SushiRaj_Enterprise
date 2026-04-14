@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "../context/ThemeContext";
 
 export default function About() {
+  const { t } = useTranslation();
   const { isDark } = useTheme();
   const [visible, setVisible] = useState(false);
   const [counters, setCounters] = useState({
@@ -125,10 +127,10 @@ export default function About() {
   );
 
   const features = [
-    { icon: <ShieldIcon />, title: "5 Year Warranty", description: "Complete repair or replacement coverage", color: "from-blue-500 to-cyan-500", bgHover: "hover:border-blue-500/40", iconColor: "text-blue-500" },
-    { icon: <HeartIcon />, title: "Customer First", description: "5000+ happy families trust us", color: "from-rose-500 to-pink-500", bgHover: "hover:border-rose-500/40", iconColor: "text-rose-500" },
-    { icon: <LeafIcon />, title: "Eco-Friendly", description: "Sustainable solutions for better future", color: "from-emerald-500 to-teal-500", bgHover: "hover:border-emerald-500/40", iconColor: "text-emerald-500" },
-    { icon: <AwardIcon />, title: "Best Pricing", description: "Water conditioner ₹28k | RO ₹25k+", color: "from-amber-500 to-orange-500", bgHover: "hover:border-amber-500/40", iconColor: "text-amber-500" },
+    { key: "warranty", icon: <ShieldIcon />, color: "from-blue-500 to-cyan-500", bgHover: "hover:border-blue-500/40", iconColor: "text-blue-500" },
+    { key: "customerFirst", icon: <HeartIcon />, color: "from-rose-500 to-pink-500", bgHover: "hover:border-rose-500/40", iconColor: "text-rose-500" },
+    { key: "ecoFriendly", icon: <LeafIcon />, color: "from-emerald-500 to-teal-500", bgHover: "hover:border-emerald-500/40", iconColor: "text-emerald-500" },
+    { key: "bestPricing", icon: <AwardIcon />, color: "from-amber-500 to-orange-500", bgHover: "hover:border-amber-500/40", iconColor: "text-amber-500" },
   ];
 
   // Floating particles config
@@ -192,17 +194,17 @@ export default function About() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-secondary-500"></span>
             </span>
-            <span className="text-secondary-500 font-poppins text-xs font-medium">Since 2020</span>
+            <span className="text-secondary-500 font-poppins text-xs font-medium">{t('about.since')}</span>
           </div>
 
           <h2
             className={`font-poppins font-bold text-3xl sm:text-4xl md:text-5xl tracking-[-1px] text-text-light-primary dark:text-text-dark-primary mb-3 fade-up ${visible ? "visible" : ""}`}
             style={{ animationDelay: "0.1s" }}
           >
-            More Than Just
+            {t('about.title')}
             <br />
             <span className="bg-gradient-to-r from-secondary-500 to-accent-500 bg-clip-text text-transparent">
-              Pure Water
+              {t('about.titleHighlight')}
             </span>
           </h2>
 
@@ -210,20 +212,18 @@ export default function About() {
             className={`font-poppins text-base sm:text-lg text-text-light-secondary dark:text-text-dark-secondary max-w-2xl mx-auto fade-up ${visible ? "visible" : ""}`}
             style={{ animationDelay: "0.2s" }}
           >
-            We're on a mission to provide every home with safe, pure, and great-tasting water.
+            {t('about.subtitle')}
           </p>
         </div>
 
         {/* Main Content Grid */}
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 mb-10">
 
-          {/* Left Side - Better Quote Card */}
+          {/* Left Side - Quote Card */}
           <div className={`space-y-5 fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
-            {/* Enhanced Quote Card with Glow */}
             <div className={`relative rounded-xl p-5 sm:p-6 overflow-hidden ${
               isDark ? "bg-dark-card" : "bg-white"
             } shadow-lg border border-secondary-500/20 group hover:shadow-xl transition-all duration-500`}>
-              {/* Animated background glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-secondary-500/5 via-transparent to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-secondary-500/10 blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
               
@@ -238,8 +238,8 @@ export default function About() {
                   <div className="h-px flex-1 bg-gradient-to-r from-secondary-500/20 to-transparent"></div>
                 </div>
                 <p className="font-poppins text-lg sm:text-xl lg:text-2xl font-semibold text-text-light-primary dark:text-text-dark-primary leading-relaxed">
-                  Water isn't just our business.
-                  <span className="text-secondary-500 block mt-1"> It's our passion.</span>
+                  {t('about.quote')}
+                  <span className="text-secondary-500 block mt-1">{t('about.quoteHighlight')}</span>
                 </p>
               </div>
             </div>
@@ -249,10 +249,10 @@ export default function About() {
               isDark ? "bg-dark-card" : "bg-white"
             } shadow-md border border-gray-200 dark:border-gray-800`}>
               <p className="text-text-light-secondary dark:text-text-dark-secondary leading-relaxed text-sm">
-                Founded in <span className="text-secondary-500 font-semibold">2020</span>, Sushiraj Enterprise began with a simple vision: to make clean, healthy drinking water accessible to every home.
+                {t('about.description1')}
               </p>
               <p className="text-text-light-secondary dark:text-text-dark-secondary leading-relaxed text-sm">
-                We believe that <span className="text-secondary-500 font-semibold">pure water is the foundation of a healthy life</span>. That's why we provide cutting-edge RO systems, reliable maintenance, and exceptional customer support.
+                {t('about.description2')}
               </p>
             </div>
           </div>
@@ -269,7 +269,7 @@ export default function About() {
                 <div className="text-2xl sm:text-3xl font-bold text-text-light-primary dark:text-text-dark-primary">
                   {counters.families.toLocaleString()}+
                 </div>
-                <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">Happy Families</div>
+                <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">{t('about.stats.happyFamilies')}</div>
               </div>
               <div className={`rounded-xl p-4 text-center transition-all duration-300 group shimmer-card ${
                 isDark ? "bg-dark-card" : "bg-white"
@@ -280,7 +280,7 @@ export default function About() {
                 <div className="text-2xl sm:text-3xl font-bold text-text-light-primary dark:text-text-dark-primary">
                   {counters.installations.toLocaleString()}+
                 </div>
-                <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">Installations</div>
+                <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">{t('about.stats.installations')}</div>
               </div>
             </div>
             <div className={`space-y-3 mt-3 sm:mt-6 fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.4s" }}>
@@ -293,7 +293,7 @@ export default function About() {
                 <div className="text-2xl sm:text-3xl font-bold text-text-light-primary dark:text-text-dark-primary">
                   {counters.experience}+
                 </div>
-                <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">Years Trust</div>
+                <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">{t('about.stats.yearsTrust')}</div>
               </div>
               <div className={`rounded-xl p-4 text-center transition-all duration-300 group shimmer-card ${
                 isDark ? "bg-dark-card" : "bg-white"
@@ -304,7 +304,7 @@ export default function About() {
                 <div className="text-2xl sm:text-3xl font-bold text-text-light-primary dark:text-text-dark-primary">
                   {counters.satisfaction}%
                 </div>
-                <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">Satisfaction</div>
+                <div className="text-xs text-text-light-secondary dark:text-text-dark-secondary mt-1">{t('about.stats.satisfaction')}</div>
               </div>
             </div>
           </div>
@@ -327,17 +327,16 @@ export default function About() {
                 {feature.icon}
               </div>
               <h3 className="font-poppins font-semibold text-base text-text-light-primary dark:text-text-dark-primary mb-1 relative z-10">
-                {feature.title}
+                {t(`about.features.${feature.key}`)}
               </h3>
               <p className="text-xs text-text-light-secondary dark:text-text-dark-secondary leading-relaxed relative z-10">
-                {feature.description}
+                {t(`about.features.${feature.key}Desc`)}
               </p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Custom styles */}
       <style>{`
         @keyframes pulse-slow {
           0%, 100% { opacity: 0.3; transform: scale(1); }

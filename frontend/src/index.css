@@ -4,6 +4,66 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Hide Google Translate Banner - Completely Remove */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+.goog-te-balloon-frame,
+.goog-te-balloon-frame.skiptranslate {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+}
+
+/* Fix body shift */
+body {
+  top: 0 !important;
+  position: relative !important;
+}
+
+/* Hide Google Translate toolbar completely */
+.goog-te-gadget,
+.goog-te-gadget-simple,
+.goog-te-gadget span,
+.goog-te-menu-value,
+.goog-te-menu2 {
+  display: none !important;
+  font-size: 0 !important;
+  height: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Hide the translate dropdown */
+.goog-te-combo {
+  display: none !important;
+}
+
+/* Hide any translate iframes */
+iframe[src*="translate.google.com"],
+iframe[src*="translate.googleapis.com"] {
+  display: none !important;
+}
+
+/* Fix translated text layout */
+.translated-ltr,
+.translated-rtl {
+  margin-top: 0 !important;
+}
+
+/* Remove Google Translate spinner */
+.goog-te-spinner-pos,
+.goog-te-spinner,
+.goog-te-spinner-animation {
+  display: none !important;
+}
+
+/* Hide tooltips */
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
 @layer base {
   body {
     font-family: 'Poppins', sans-serif;

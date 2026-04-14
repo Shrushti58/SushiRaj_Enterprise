@@ -18,8 +18,9 @@ function App() {
         <SushirajHero />
         <About />
         <Services />
-        <Products />
-        <EducationalInfo /> {/* New component */}
+        <EducationalInfo /> 
+                <Products />
+
         <Testimonials />
         <Contact />
         <Footer />

@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "../context/ThemeContext";
 
 export default function SushirajHero() {
+  const { t } = useTranslation();
   const { isDark } = useTheme();
   const [visible, setVisible] = useState(false);
   const [videoError, setVideoError] = useState(false);
@@ -211,24 +213,24 @@ export default function SushirajHero() {
                 <div className="text-white">
                   <StarIcon />
                 </div>
-                <span className="font-poppins text-xs sm:text-sm text-white">Premium Quality</span>
+                <span className="font-poppins text-xs sm:text-sm text-white">{t('hero.premiumQuality')}</span>
               </div>
               <div className="px-2.5 py-1 sm:px-3 sm:py-1.5 bg-white/10 backdrop-blur-sm rounded-full shadow-sm border border-white/20">
-                <span className="font-poppins text-xs sm:text-sm text-white">Since 2020 | Trusted Brand</span>
+                <span className="font-poppins text-xs sm:text-sm text-white">{t('hero.trustedBrand')}</span>
               </div>
             </div>
           </div>
 
           {/* Main Headline - Well Balanced */}
           <h1 className={`fade-up text-center font-poppins font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-1px] text-white mb-3 sm:mb-4 md:mb-5 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.2s" }}>
-            Pure Water
+            {t('hero.title')}
             <br />
-            <span className="text-secondary-500">Healthy Life</span>
+            <span className="text-secondary-500">{t('hero.titleHighlight')}</span>
           </h1>
 
           {/* Subtitle - Well Balanced */}
           <p className={`fade-up text-center font-poppins font-medium text-sm sm:text-base md:text-lg text-white/85 max-w-[90%] sm:max-w-[85%] md:max-w-2xl mb-5 sm:mb-6 md:mb-7 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
-            Premium RO water purifiers, water conditioners, and professional AMC services for your home and business.
+            {t('hero.description')}
           </p>
 
           {/* CTA Buttons - Perfect Size */}
@@ -238,7 +240,7 @@ export default function SushirajHero() {
               className="group w-full xs:w-auto px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-secondary-500 to-teal-400 hover:from-secondary-600 hover:to-teal-500 text-white font-poppins font-semibold text-sm sm:text-base rounded-xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
             >
               <MessageIcon />
-              Get Free Quote
+              {t('hero.getFreeQuote')}
               <ArrowRightIcon />
             </button>
 
@@ -247,7 +249,7 @@ export default function SushirajHero() {
               className="group w-full xs:w-auto px-5 py-2.5 sm:px-6 sm:py-3 bg-white/10 backdrop-blur-md border border-white/30 hover:border-secondary-500 text-white font-poppins font-medium text-sm sm:text-base rounded-xl transition-all duration-300 hover:bg-white/20 flex items-center justify-center gap-2"
             >
               <PhoneIcon />
-              Call: 8888800773
+              {t('hero.callNow')}
             </button>
           </div>
 
@@ -260,7 +262,7 @@ export default function SushirajHero() {
               className="group inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-[#25D366]/20 backdrop-blur-sm border border-[#25D366]/40 hover:border-[#25D366] rounded-full transition-all duration-300 hover:scale-105"
             >
               <WhatsAppIcon />
-              <span className="font-poppins text-xs sm:text-sm text-white/85 group-hover:text-white">Chat on WhatsApp</span>
+              <span className="font-poppins text-xs sm:text-sm text-white/85 group-hover:text-white">{t('hero.chatOnWhatsApp')}</span>
             </a>
           </div>
 
@@ -268,19 +270,19 @@ export default function SushirajHero() {
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 mt-6 sm:mt-7 md:mt-8">
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 bg-secondary-500 rounded-full"></div>
-              <span className="font-poppins text-[10px] xs:text-xs text-white/75">5000+ Families</span>
+              <span className="font-poppins text-[10px] xs:text-xs text-white/75">{t('hero.families')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 bg-secondary-500 rounded-full"></div>
-              <span className="font-poppins text-[10px] xs:text-xs text-white/75">1000+ Installations</span>
+              <span className="font-poppins text-[10px] xs:text-xs text-white/75">{t('hero.installations')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 bg-secondary-500 rounded-full"></div>
-              <span className="font-poppins text-[10px] xs:text-xs text-white/75">24/7 Support</span>
+              <span className="font-poppins text-[10px] xs:text-xs text-white/75">{t('hero.support')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 bg-secondary-500 rounded-full"></div>
-              <span className="font-poppins text-[10px] xs:text-xs text-white/75">5 Year Warranty</span>
+              <span className="font-poppins text-[10px] xs:text-xs text-white/75">{t('hero.warranty')}</span>
             </div>
           </div>
         </div>

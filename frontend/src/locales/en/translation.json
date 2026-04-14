@@ -1,0 +1,380 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "howItWorks": "How It Works",
+    "products": "Products",
+    "contact": "Contact",
+    "getQuote": "Get Quote"
+  },
+   "hero": {
+    "premiumQuality": "Premium Quality",
+    "trustedBrand": "Since 2020 | Trusted Brand",
+    "title": "Pure Water",
+    "titleHighlight": "Healthy Life",
+    "description": "Premium RO water purifiers, water conditioners, and professional AMC services for your home and business.",
+    "getFreeQuote": "Get Free Quote",
+    "callNow": "Call: 8888800773",
+    "chatOnWhatsApp": "Chat on WhatsApp",
+    "families": "5000+ Families",
+    "installations": "1000+ Installations",
+    "support": "24/7 Support",
+    "warranty": "5 Year Warranty"
+  },
+    "about": {
+    "since": "Since 2020",
+    "title": "More Than Just",
+    "titleHighlight": "Pure Water",
+    "subtitle": "We're on a mission to provide every home with safe, pure, and great-tasting water.",
+    "quote": "Water isn't just our business.",
+    "quoteHighlight": "It's our passion.",
+    "description1": "Founded in 2020, Sushiraj Enterprise began with a simple vision: to make clean, healthy drinking water accessible to every home.",
+    "description2": "We believe that pure water is the foundation of a healthy life. That's why we provide cutting-edge RO systems, reliable maintenance, and exceptional customer support.",
+    "stats": {
+      "happyFamilies": "Happy Families",
+      "installations": "Installations",
+      "yearsTrust": "Years Trust",
+      "satisfaction": "Satisfaction"
+    },
+    "features": {
+      "warranty": "5 Year Warranty",
+      "warrantyDesc": "Complete repair or replacement coverage",
+      "customerFirst": "Customer First",
+      "customerFirstDesc": "5000+ happy families trust us",
+      "ecoFriendly": "Eco-Friendly",
+      "ecoFriendlyDesc": "Sustainable solutions for better future",
+      "bestPricing": "Best Pricing",
+      "bestPricingDesc": "Water conditioner ₹28k | RO ₹25k+"
+    }
+  },
+   "services": {
+    "title": "What We Offer",
+    "subtitle": "Comprehensive water purification solutions tailored to your needs",
+    "ourServices": "Our Services",
+    "stats": {
+      "estTime": "Est. Time",
+      "experience": "Experience",
+      "satisfaction": "Satisfaction"
+    },
+    "highlights": "Service Highlights",
+    "getQuote": "Get Quote",
+    "step": "Step",
+    "of": "of",
+    "roInstallation": {
+      "title": "RO Installation",
+      "shortDesc": "Expert RO system installation with lifetime support",
+      "description": "Get your RO water purifier installed professionally by our certified technicians. We ensure proper plumbing, electrical connections, and optimal placement for maximum efficiency.",
+      "features": ["Free Demo & Training", "Certified Technicians", "Same Day Service", "Free Installation", "Lifetime Support", "Warranty Included"],
+      "time": "2-3 Hours",
+      "experience": "5+ Years",
+      "satisfaction": "99%"
+    },
+    "waterFilter": {
+      "title": "Water Filter Service",
+      "shortDesc": "Complete filter maintenance and replacement",
+      "description": "Regular maintenance keeps your water purifier running at peak performance. We use only genuine filters and provide detailed water quality reports after every service.",
+      "features": ["Water Quality Testing", "Original Filters Only", "Monthly Checkup", "Performance Report", "Filter Replacement", "System Sanitization"],
+      "time": "1-2 Hours",
+      "experience": "1000+ Services",
+      "satisfaction": "98%"
+    },
+    "amc": {
+      "title": "AMC Maintenance",
+      "shortDesc": "Annual Maintenance Contract for peace of mind",
+      "description": "Never worry about maintenance again with our comprehensive AMC plans. Enjoy priority service, discounted repairs, and regular checkups throughout the year.",
+      "features": ["Priority Support", "Free Annual Checkups", "Discounted Repairs", "Quarterly Service", "Emergency Coverage", "Filter Replacement"],
+      "time": "Yearly Plan",
+      "experience": "500+ Clients",
+      "satisfaction": "97%"
+    },
+    "repair": {
+      "title": "Repair & Support",
+      "shortDesc": "24/7 emergency repair service",
+      "description": "Water purifier breakdown? Don't worry! Our expert technicians are available round the clock to fix any issue with genuine spare parts and quick response time.",
+      "features": ["24/7 Emergency Service", "Quick Response Time", "Expert Technicians", "Genuine Spare Parts", "90-Day Warranty", "Free Inspection"],
+      "time": "1 Hour Response",
+      "experience": "2000+ Repairs",
+      "satisfaction": "96%"
+    }
+  },
+  "warranty": {
+    "title": "5 Year Warranty",
+    "subtitle": "Complete peace of mind",
+    "partsCoverage": "Parts Coverage",
+    "laborCoverage": "Labor Coverage",
+    "features": {
+      "freeInstallation": "Free Installation & Maintenance",
+      "freeRepair": "Free Repair or Replacement",
+      "support": "24/7 Customer Support",
+      "network": "Nationwide Service Network",
+      "checkup": "Free Annual Checkup",
+      "genuineParts": "100% Genuine Parts"
+    },
+    "terms": {
+      "note": "Consequential damages not covered",
+      "apply": "Terms apply"
+    }
+  },
+  "pricing": {
+    "title": "Best Prices",
+    "subtitle": "Affordable & Transparent",
+    "waterConditioner": {
+      "name": "Water Conditioner",
+      "desc": "Depends on pipe diameter",
+      "price": "₹28k"
+    },
+    "roPlants": {
+      "name": "RO Plants",
+      "desc": "25 - 1000 LPH capacity",
+      "price": "₹25k"
+    },
+    "freeInstallation": {
+      "name": "Free Installation",
+      "desc": "Limited time offer",
+      "save": "Save ₹5,000+"
+    },
+    "freeConsultation": "Free Site Visit & Consultation",
+    "bulkDiscount": "Call for bulk discounts",
+    "emiAvailable": "EMI available",
+    "rating": "4.9",
+    "gst": "+",
+    "exclGst": "excl. GST"
+  },
+  "howItWorks": {
+  "agricultureSolution": "Agriculture Solution",
+  "agriculture": "Agriculture",
+  "subtitle": "See how UB'CAL transforms hard water into healthy water for better crops",
+  "tabs": {
+    "problem": "The Problem",
+    "science": "The Science",
+    "solution": "The Solution",
+    "benefits": "Benefits"
+  },
+  "problem": {
+    "title": "Hard Water Damages Your Farm",
+    "subtitle": "Understanding the hidden costs of hard water in agriculture",
+    "criticalIssue": "Critical Issue",
+    "theProblem": "The Problem",
+    "description": "Hard water contains calcium and magnesium. When used for irrigation, these minerals create serious problems for your farm.",
+    "commonIssues": "Common Issues Farmers Face",
+    "scale": "Block drip emitters and sprinklers completely",
+    "salinity": "Create white crust on soil surface (salinity)",
+    "cropDamage": "Damage crop roots and reduce nutrient uptake",
+    "yieldLoss": "Decrease crop yield by up to 30%",
+    "electricity": "Increase electricity and maintenance costs",
+    "seeDamage": "See the Damage (Real Examples)",
+    "cloggedDripper": "Clogged Drip Emitter",
+    "cloggedDesc": "Scale completely blocks water flow",
+    "whiteCrust": "White Salt Crust",
+    "crustDesc": "Soil salinity visible on surface",
+    "damagedCrop": "Salt Damaged Crop",
+    "cropDesc": "Stunted growth, yellow leaves",
+    "scalePipe": "Scale on Pipe",
+    "pipeDesc": "Thick mineral deposits inside",
+    "financialImpact": "Financial Impact",
+    "impactText": "Hard water costs Indian farmers thousands in lost yield every year",
+    "average": "Average",
+    "yieldLossShort": "Yield Loss"
+  },
+  "science": {
+    "title": "How Electronic Conditioning Works",
+    "subtitle": "Simple science. Powerful results. No chemicals.",
+    "easyToUnderstand": "Easy to Understand",
+    "simpleScience": "Simple Science",
+    "simpleScienceText": "Hard water minerals act like magnets - they stick to each other and to pipes. UB'CAL sends electronic waves that remove that sticking power.",
+    "howItWorks": "How It Works",
+    "step1": "Waves travel through water in pipe",
+    "step2": "Mineral bonds break apart",
+    "step3": "Minerals cannot stick to surfaces",
+    "step4": "Existing scale slowly dissolves",
+    "whyChoose": "Why Farmers Choose UB'CAL",
+    "noChemicals": "No chemicals - safe for organic farming",
+    "allPipes": "Works on all pipe types (PVC, HDPE, metal)",
+    "lowPower": "No electricity bill increase (only 50W)",
+    "zeroMaintenance": "Zero maintenance for 10+ years",
+    "keepsMinerals": "Keeps healthy minerals in water",
+    "didYouKnow": "Did You Know?",
+    "powerFact": "UB'CAL uses less power than a LED bulb"
+  },
+  "solution": {
+    "title": "From Problem to Solution",
+    "pause": "Pause",
+    "playStory": "Play Story",
+    "simpleInstallation": "Simple Installation",
+    "step1": "Wrap coils around main water pipe",
+    "step2": "Connect to control box",
+    "step3": "Plug into power socket",
+    "step4": "Green light means working",
+    "resultsTitle": "Results You'll See",
+    "result1": "No more clogged drippers",
+    "result2": "Even water distribution in field",
+    "result3": "Healthier crops, higher yield",
+    "result4": "Less maintenance, more profit"
+  },
+  "benefits": {
+    "title": "Why Farmers Choose UB'CAL",
+    "guarantee": "30 Day Money Back Guarantee • Easy DIY Installation • Works on All Pipe Types"
+  },
+  "animation": {
+    "problemTitle": "Problem: Hard Water Damage",
+    "problemDesc": "White scale blocks drippers and pipes",
+    "installationTitle": "UB'CAL Installation",
+    "installationDesc": "Coils wrapped around main water pipe",
+    "wavesTitle": "Electronic Waves Work",
+    "wavesDesc": "Waves break mineral bonds, scale stops forming",
+    "cleanTitle": "Pipes Become Clean",
+    "cleanDesc": "Old scale disappears, water flows freely",
+    "cropTitle": "Better Crop Results",
+    "cropDesc": "Healthy plants, higher yield, happy farmer"
+  }
+},
+"products": {
+  "premiumBadge": "Premium Quality Since 2020",
+  "waterConditioner": "Water Conditioner",
+  "tagline": "Electronic Water Conditioning Technology • No Salt • No Chemicals • No Maintenance",
+  "categories": {
+    "waterConditioner": "Water Conditioner",
+    "tankHanger": "Tank Hanger",
+    "purifiers": "Water Purifiers"
+  },
+  "shortConditioner": "Conditioner",
+  "shortPurifiers": "Purifiers",
+  "waterConditionerTitle": "UB'CAL Electronic Water Conditioner",
+  "tankHangerTitle": "UB'CAL Tank Hanger",
+  "purifiersTitle": "Water Purifiers",
+  "tankHangerDesc": "Premium quality tank mounting solution",
+  "selectPipeSize": "Select your pipe size to see the price",
+  "selectModel": "Select Model",
+  "selectBrand": "Select your brand",
+  "model": "Model",
+  "yourPrice": "Your Price",
+  "contactUs": "Contact Us",
+  "gst": "+ 18% GST",
+  "keyFeatures": "Key Features",
+  "getQuote": "Get Quote",
+  "callNow": "Call Now",
+  "prevImage": "Previous image",
+  "nextImage": "Next image",
+  "goToImage": "Go to image",
+  "tags": {
+    "popular": "Popular",
+    "bestValue": "Best Value",
+    "commercial": "Commercial",
+    "industrial": "Industrial",
+    "heavyDuty": "Heavy Duty",
+    "premiumQuality": "Premium Quality"
+  },
+  "tankHanger": {
+    "name": "UB'CAL Tank Hanger",
+    "feature1": "Heavy duty stainless steel construction",
+    "feature2": "Corrosion & rust resistant",
+    "feature3": "Easy installation on any tank",
+    "feature4": "Secure grip & stable support",
+    "feature5": "Long lasting durability"
+  },
+  "purifiers": {
+    "customOrder": "Custom Order",
+    "customModel": "As per requirement"
+  }
+},
+"contact": {
+  "getInTouch": "Get in Touch",
+  "title": "Contact",
+  "titleEnd": "Us",
+  "subtitle": "We're here to help! Choose your preferred way to connect with our team.",
+  "fastestWay": "Fastest Way to Reach Us",
+  "otherWays": "Other Ways to Connect",
+  "callUs": "Call Us",
+  "callSubtitle": "Quick support & inquiries",
+  "whatsapp": "WhatsApp",
+  "whatsappSubtitle": "Chat & share documents",
+  "clickToStart": "Click to start conversation",
+  "tapToCall": "Tap to Call Now",
+  "startChat": "Start WhatsApp Chat",
+  "emailUs": "Email Us",
+  "emailSubtitle": "For formal communication",
+  "sendEmail": "Send Email",
+  "visitUs": "Visit Us",
+  "visitSubtitle": "Get directions to office",
+  "openMaps": "Open in Google Maps",
+  "getDirections": "Get Directions",
+  "priority": "PRIORITY",
+  "hotline": "Quick Connect Hotline",
+  "hotlineDesc": "Tap any number to call directly - Available 9 AM to 7 PM",
+  "quickResponse": "Quick Response",
+  "responseText": "We reply within 24 hours",
+  "avgResponse": "Average response",
+  "hours": "hours",
+  "businessHours": "Business Hours",
+  "monSat": "Monday - Saturday: 9:00 AM - 7:00 PM",
+  "sunClosed": "Sunday: Closed",
+  "location": "Our Location",
+  "fullScreen": "Full Screen",
+  "nearby": "Nearby Landmark",
+  "area": "Area",
+  "city": "City",
+  "pinCode": "PIN Code",
+  "mapError": "Google Maps API key not configured",
+  "emailSubject": "Inquiry about your services"
+},
+"testimonials": {
+  "realStories": "Real Stories",
+  "title": "What Our",
+  "titleEnd": "Customers Say",
+  "subtitle": "Trusted by 5000+ farmers and families across India",
+  "agriculture": "Agriculture",
+  "ro": "RO Purifier",
+  "ubcalAgriculture": "UB'CAL Agriculture",
+  "roPurifier": "RO Water Purifier",
+  "verifiedCustomer": "Verified Customer",
+  "rating": "4.9 out of 5",
+  "basedOn": "Based on 500+ reviews",
+  "farmers": "200+ Farmers",
+  "homes": "300+ Homes",
+  "agri1": "Installed UB'CAL on our 5-acre sugarcane farm. Drip irrigation used to get clogged every 2 months. Now running for 6 months with zero blockages. Amazing product for farmers!",
+  "agri2": "Our grape vineyard was suffering from scale buildup in sprinklers. After UB'CAL installation, water flow is consistent and crop yield increased by 25%. Best investment for our farm.",
+  "agri3": "Vegetable farm with 2 acres of drip irrigation. Earlier had to replace drippers every season due to hard water scale. Now 8 months and all drippers working perfectly.",
+  "agri4": "Pomegranate orchard saw amazing results. Earlier water was not reaching end of rows due to scale. Now uniform water distribution everywhere. Highly recommend to all farmers.",
+  "agri5": "Polyhouse farmer here. Our misting nozzles used to clog weekly. Since UB'CAL installation, no clogs for 4 months. Plants are healthier and electricity bill reduced by 20%.",
+  "agri6": "Good product for hard water problem in our cotton farm. Maintenance cost reduced significantly. Installation team was very helpful and explained everything clearly.",
+  "ro1": "RO water tastes so pure now. My family drinks more water without any worry. The installation was quick and professional. Best decision for our home.",
+  "ro2": "Finally found a reliable RO purifier. Water quality is excellent. Customer service is very responsive. The AMC plan is affordable and worth every rupee.",
+  "ro3": "No more buying water cans. This RO purifier gives clean tasty water 24/7. My children now drink enough water without reminding them. Very happy with the purchase.",
+  "ro4": "The RO system works perfectly. TDS before was 1200, now 50. Water tastes like mineral water. Installation team was punctual and neat. 5 star service.",
+  "ro5": "Excellent product and after sales service. They called me after installation to check if everything was fine. Filter change reminder is very helpful.",
+  "ro6": "Good value for money. Water taste improved a lot. The technician came on time for installation. Would recommend to friends and family."
+},
+"footer": {
+  "brand": "Enterprise",
+  "tagline": "Pure Water | Healthy Life",
+  "description": "Premium RO water purifiers, filtration systems, and professional AMC services for your home and business since 2020.",
+  "quickLinks": {
+    "title": "Quick Links",
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "products": "Products",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
+  },
+  "services": {
+    "title": "Our Services",
+    "roInstallation": "RO Installation",
+    "waterFilter": "Water Filter Service",
+    "amc": "AMC Maintenance",
+    "repair": "Repair & Support"
+  },
+  "contactInfo": {
+    "title": "Contact Info",
+    "callUs": "Call Us",
+    "emailUs": "Email Us",
+    "visitUs": "Visit Us",
+    "businessHours": "Business Hours",
+    "address": "Sangli, Maharashtra, India",
+    "hours": "Mon - Sat: 9:00 AM - 9:00 PM",
+    "sundayClosed": "Sunday: Closed"
+  },
+  "rights": "All rights reserved."
+}
+}

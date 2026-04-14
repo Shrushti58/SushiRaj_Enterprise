@@ -1,12 +1,15 @@
+// src/components/Navbar.jsx
 import { useState, useEffect } from "react";
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "../context/ThemeContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const { theme, toggleTheme, isDark } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Handle scroll effect for navbar
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -15,7 +18,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Smooth scroll to section
   const handleNavClick = (e, href) => {
     e.preventDefault();
     const element = document.querySelector(href);
@@ -25,7 +27,6 @@ export default function Navbar() {
     }
   };
 
-  // SVG Icons
   const MenuIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 12H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
@@ -61,6 +62,15 @@ export default function Navbar() {
     </svg>
   );
 
+  const navItems = [
+    { key: "home", href: "#home" },
+    { key: "about", href: "#about" },
+    { key: "services", href: "#services" },
+    { key: "howItWorks", href: "#how-it-works" },
+    { key: "products", href: "#products" },
+    { key: "contact", href: "#contact" }
+  ];
+
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-500 ${
       isScrolled 
@@ -69,7 +79,7 @@ export default function Navbar() {
     }`}>
       <div className="px-4 sm:px-6 md:px-8 lg:px-[60px] xl:px-[120px] py-3 sm:py-4">
         <div className="flex items-center justify-between">
-          {/* Logo with Image */}
+          {/* Logo */}
           <a 
             href="#home" 
             onClick={(e) => handleNavClick(e, '#home')} 
@@ -87,15 +97,15 @@ export default function Navbar() {
 
           {/* Desktop Menu Items */}
           <div className="hidden lg:flex items-center gap-4 xl:gap-8">
-            {["Home", "About", "Services", "Products", "How It Works", "Contact"].map((item) => (
+            {navItems.map((item) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-                onClick={(e) => handleNavClick(e, `#${item.toLowerCase().replace(/ /g, '-')}`)}
+                key={item.key}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
                 className="group relative px-1 py-2"
               >
                 <span className="font-poppins font-medium text-sm xl:text-base tracking-[-0.2px] text-gray-700 dark:text-gray-200 hover:text-secondary-500 transition-colors duration-300">
-                  {item}
+                  {t(`nav.${item.key}`)}
                 </span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary-500 group-hover:w-full transition-all duration-300"></span>
               </a>
@@ -104,7 +114,8 @@ export default function Navbar() {
 
           {/* Desktop Right Side Buttons */}
           <div className="hidden sm:flex items-center gap-2 md:gap-3">
-            {/* Theme Toggle Button */}
+            <LanguageSwitcher />
+            
             <button
               onClick={toggleTheme}
               className={`w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border transition-all duration-300 flex items-center justify-center ${
@@ -121,7 +132,7 @@ export default function Navbar() {
               onClick={(e) => handleNavClick(e, '#contact')}
               className="px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-medium text-sm sm:text-base rounded-lg transition-all shadow-lg hover:shadow-glow whitespace-nowrap"
             >
-              Get Quote
+              {t('nav.getQuote')}
             </button>
           </div>
 
@@ -143,18 +154,19 @@ export default function Navbar() {
               : 'bg-white dark:bg-dark-bg shadow-lg border border-gray-200 dark:border-gray-700'
           }`}>
             <div className="flex flex-col gap-1 px-3">
-              {["Home", "About", "Services", "Products", "How It Works", "Contact"].map((item) => (
+              {navItems.map((item) => (
                 <a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(/ /g, '-')}`}
-                  onClick={(e) => handleNavClick(e, `#${item.toLowerCase().replace(/ /g, '-')}`)}
+                  key={item.key}
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className="font-poppins font-medium text-base py-3 px-4 rounded-xl transition-colors text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-secondary-500"
                 >
-                  {item}
+                  {t(`nav.${item.key}`)}
                 </a>
               ))}
               <div className="flex items-center gap-3 pt-3 mt-2 border-t border-gray-200 dark:border-gray-700">
-                {/* Theme Toggle for Mobile */}
+                <LanguageSwitcher />
+                
                 <button
                   onClick={toggleTheme}
                   className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 flex items-center justify-center bg-gray-100 dark:bg-dark-card text-gray-700 dark:text-white"
@@ -167,7 +179,7 @@ export default function Navbar() {
                   onClick={(e) => handleNavClick(e, '#contact')}
                   className="flex-1 py-2.5 bg-secondary-500 hover:bg-secondary-600 text-white font-poppins font-medium text-base rounded-lg transition-all"
                 >
-                  Get Quote
+                  {t('nav.getQuote')}
                 </button>
               </div>
             </div>

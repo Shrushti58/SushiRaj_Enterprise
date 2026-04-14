@@ -1,23 +1,25 @@
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "../context/ThemeContext";
 import { Phone, Mail, MapPin, Clock, Droplets, ChevronRight } from "lucide-react";
 
 export default function Footer() {
+  const { t } = useTranslation();
   const { isDark } = useTheme();
 
   const quickLinks = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Products", href: "#products" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Contact", href: "#contact" },
+    { name: t('footer.quickLinks.home'), href: "#home", key: "home" },
+    { name: t('footer.quickLinks.about'), href: "#about", key: "about" },
+    { name: t('footer.quickLinks.services'), href: "#services", key: "services" },
+    { name: t('footer.quickLinks.products'), href: "#products", key: "products" },
+    { name: t('footer.quickLinks.testimonials'), href: "#testimonials", key: "testimonials" },
+    { name: t('footer.quickLinks.contact'), href: "#contact", key: "contact" },
   ];
 
   const services = [
-    "RO Installation",
-    "Water Filter Service",
-    "AMC Maintenance",
-    "Repair & Support",
+    t('footer.services.roInstallation'),
+    t('footer.services.waterFilter'),
+    t('footer.services.amc'),
+    t('footer.services.repair'),
   ];
 
   const handleNavClick = (e, href) => {
@@ -36,30 +38,43 @@ export default function Footer() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           
-          {/* Brand Column */}
+          {/* Brand Column with Logo */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-600 flex items-center justify-center">
-                <Droplets className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-3">
+              {/* Logo Image from public folder */}
+              <img 
+                src="/logo.jpeg" 
+                alt="Sushiraj Enterprise Logo" 
+                className="w-12 h-12 object-contain"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  if (e.target.nextSibling) {
+                    e.target.nextSibling.style.display = 'flex';
+                  }
+                }}
+              />
+              {/* Fallback icon if logo fails to load */}
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-secondary-500 to-secondary-600 flex items-center justify-center hidden">
+                <Droplets className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h3 className="font-poppins font-bold text-xl text-white">
-                  Sushiraj<span className="text-secondary-500">Enterprise</span>
+                  Sushiraj<span className="text-secondary-500">{t('footer.brand')}</span>
                 </h3>
-                <p className="text-xs text-gray-400">Pure Water | Healthy Life</p>
+                <p className="text-xs text-gray-400">{t('footer.tagline')}</p>
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Premium RO water purifiers, filtration systems, and professional AMC services for your home and business since 2020.
+              {t('footer.description')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-poppins font-semibold text-white text-lg mb-4">Quick Links</h4>
+            <h4 className="font-poppins font-semibold text-white text-lg mb-4">{t('footer.quickLinks.title')}</h4>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
-                <li key={link.name}>
+                <li key={link.key}>
                   <a
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
@@ -75,10 +90,10 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-poppins font-semibold text-white text-lg mb-4">Our Services</h4>
+            <h4 className="font-poppins font-semibold text-white text-lg mb-4">{t('footer.services.title')}</h4>
             <ul className="space-y-2">
-              {services.map((service) => (
-                <li key={service}>
+              {services.map((service, index) => (
+                <li key={index}>
                   <a
                     href="#services"
                     onClick={(e) => handleNavClick(e, "#services")}
@@ -94,12 +109,12 @@ export default function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-poppins font-semibold text-white text-lg mb-4">Contact Info</h4>
+            <h4 className="font-poppins font-semibold text-white text-lg mb-4">{t('footer.contactInfo.title')}</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <Phone className="w-4 h-4 text-secondary-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-400 text-sm">Call Us</p>
+                  <p className="text-gray-400 text-sm">{t('footer.contactInfo.callUs')}</p>
                   <a href="tel:918888800773" className="text-white text-sm hover:text-secondary-500 transition">8888800773</a>
                   <span className="text-gray-500 mx-1">|</span>
                   <a href="tel:919763473858" className="text-white text-sm hover:text-secondary-500 transition">97634 73858</a>
@@ -108,7 +123,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-secondary-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-400 text-sm">Email Us</p>
+                  <p className="text-gray-400 text-sm">{t('footer.contactInfo.emailUs')}</p>
                   <a href="mailto:Sushiraj.enterprises@gmail.com" className="text-white text-sm hover:text-secondary-500 transition break-all">
                     Sushiraj.enterprises@gmail.com
                   </a>
@@ -117,16 +132,16 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-secondary-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-400 text-sm">Visit Us</p>
-                  <p className="text-white text-sm">Sangli, Maharashtra, India</p>
+                  <p className="text-gray-400 text-sm">{t('footer.contactInfo.visitUs')}</p>
+                  <p className="text-white text-sm">{t('footer.contactInfo.address')}</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="w-4 h-4 text-secondary-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-400 text-sm">Business Hours</p>
-                  <p className="text-white text-sm">Mon - Sat: 9:00 AM - 7:00 PM</p>
-                  <p className="text-gray-500 text-xs">Sunday: Closed</p>
+                  <p className="text-gray-400 text-sm">{t('footer.contactInfo.businessHours')}</p>
+                  <p className="text-white text-sm">{t('footer.contactInfo.hours')}</p>
+                  <p className="text-gray-500 text-xs">{t('footer.contactInfo.sundayClosed')}</p>
                 </div>
               </li>
             </ul>
@@ -134,13 +149,13 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar - Simplified */}
+      {/* Bottom Bar */}
       <div className={`border-t ${
         isDark ? "border-gray-800" : "border-gray-800"
       } py-6`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-gray-500 text-sm text-center">
-            © {new Date().getFullYear()} Sushiraj Enterprise. All rights reserved.
+            © {new Date().getFullYear()} Sushiraj Enterprise. {t('footer.rights')}
           </p>
         </div>
       </div>

@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "../context/ThemeContext";
-import { Star, Quote, User, CheckCircle } from "lucide-react";
+import { Star, Quote, User, CheckCircle, Sprout, Droplets, Tractor, Leaf } from "lucide-react";
 
 export default function Testimonials() {
+  const { t } = useTranslation();
   const { isDark } = useTheme();
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef(null);
   const cursorGlowRef = useRef(null);
   const scrollContainerRef = useRef(null);
 
-  // Cursor light-spot effect
+  // Cursor light-spot effect (disabled on mobile)
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -38,7 +40,6 @@ export default function Testimonials() {
     };
   }, []);
 
-  // Intersection observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -47,7 +48,7 @@ export default function Testimonials() {
           observer.disconnect();
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     const section = document.getElementById("testimonials");
@@ -56,92 +57,110 @@ export default function Testimonials() {
   }, []);
 
   const testimonials = [
+    // Agriculture Testimonials
     {
       id: 1,
-      name: "Rajesh Patil",
-      location: "Kolhapur",
       rating: 5,
-      text: "The water quality has improved dramatically after installing the water conditioner. No more white scales on utensils. The technician came on time and explained everything clearly.",
-      date: "2 weeks ago",
-      product: "Water Conditioner",
+      text: t('testimonials.agri1'),
+      product: t('testimonials.ubcalAgriculture'),
+      category: "agriculture",
       verified: true,
     },
     {
       id: 2,
-      name: "Sneha Deshmukh",
-      location: "Sangli",
       rating: 5,
-      text: "Best decision for our home. The RO water tastes pure and clean. My kids now drink more water without any hesitation. Customer support is very responsive.",
-      date: "1 month ago",
-      product: "RO Purifier Basic",
+      text: t('testimonials.agri2'),
+      product: t('testimonials.ubcalAgriculture'),
+      category: "agriculture",
       verified: true,
     },
     {
       id: 3,
-      name: "Vikram Jadhav",
-      location: "Satara",
-      rating: 4,
-      text: "Good product at reasonable price. Installation was quick and professional. The 5 year warranty gives peace of mind. Would recommend to family and friends.",
-      date: "3 weeks ago",
-      product: "Water Conditioner",
+      rating: 5,
+      text: t('testimonials.agri3'),
+      product: t('testimonials.ubcalAgriculture'),
+      category: "agriculture",
       verified: true,
     },
     {
       id: 4,
-      name: "Priya Kulkarni",
-      location: "Pune",
       rating: 5,
-      text: "Very happy with the AMC service. They come on time every quarter for maintenance. The filter replacement is done properly. Water tastes great.",
-      date: "2 months ago",
-      product: "AMC Service",
+      text: t('testimonials.agri4'),
+      product: t('testimonials.ubcalAgriculture'),
+      category: "agriculture",
       verified: true,
     },
     {
       id: 5,
-      name: "Mahesh Shinde",
-      location: "Miraj",
       rating: 5,
-      text: "Finally found a solution for our hard water problem. The conditioner works like magic. No more dry skin and hair fall issues. Worth every rupee.",
-      date: "1 week ago",
-      product: "Water Conditioner",
+      text: t('testimonials.agri5'),
+      product: t('testimonials.ubcalAgriculture'),
+      category: "agriculture",
       verified: true,
     },
     {
       id: 6,
-      name: "Anita Gaikwad",
-      location: "Karad",
-      rating: 5,
-      text: "Professional team and quality product. They called me after installation to check if everything was working fine. Rare to see such service these days.",
-      date: "3 months ago",
-      product: "RO Plant",
+      rating: 4,
+      text: t('testimonials.agri6'),
+      product: t('testimonials.ubcalAgriculture'),
+      category: "agriculture",
       verified: true,
     },
+    
+    // RO Water Purifier Testimonials
     {
       id: 7,
-      name: "Suresh Nalawade",
-      location: "Ichalkaranji",
       rating: 5,
-      text: "Installation was super fast. The team was very professional. Water taste is excellent now. Highly recommended!",
-      date: "1 month ago",
-      product: "RO Purifier",
+      text: t('testimonials.ro1'),
+      product: t('testimonials.roPurifier'),
+      category: "ro",
       verified: true,
     },
     {
       id: 8,
-      name: "Kavita More",
-      location: "Mumbai",
+      rating: 5,
+      text: t('testimonials.ro2'),
+      product: t('testimonials.roPurifier'),
+      category: "ro",
+      verified: true,
+    },
+    {
+      id: 9,
+      rating: 5,
+      text: t('testimonials.ro3'),
+      product: t('testimonials.roPurifier'),
+      category: "ro",
+      verified: true,
+    },
+    {
+      id: 10,
+      rating: 5,
+      text: t('testimonials.ro4'),
+      product: t('testimonials.roPurifier'),
+      category: "ro",
+      verified: true,
+    },
+    {
+      id: 11,
+      rating: 5,
+      text: t('testimonials.ro5'),
+      product: t('testimonials.roPurifier'),
+      category: "ro",
+      verified: true,
+    },
+    {
+      id: 12,
       rating: 4,
-      text: "Good service and support. The AMC plan is affordable and worth it. They respond quickly to any issues.",
-      date: "2 months ago",
-      product: "AMC Service",
+      text: t('testimonials.ro6'),
+      product: t('testimonials.roPurifier'),
+      category: "ro",
       verified: true,
     },
   ];
 
-  // Double the array for seamless infinite scroll
+  // Double the array for seamless infinite scroll on both mobile and desktop
   const doubledTestimonials = [...testimonials, ...testimonials];
 
-  // Floating particles config
   const particles = Array.from({ length: 12 }, (_, i) => ({
     id: i,
     size: 4 + Math.random() * 8,
@@ -151,11 +170,25 @@ export default function Testimonials() {
     opacity: 0.15 + Math.random() * 0.25,
   }));
 
+  const getProductIcon = (category) => {
+    if (category === "agriculture") {
+      return <Sprout className="w-3 h-3" />;
+    }
+    return <Droplets className="w-3 h-3" />;
+  };
+
+  const getProductColor = (category) => {
+    if (category === "agriculture") {
+      return "from-green-500 to-emerald-500";
+    }
+    return "from-cyan-500 to-blue-500";
+  };
+
   return (
     <section
       id="testimonials"
       ref={sectionRef}
-      className={`py-20 sm:py-28 lg:py-36 transition-colors duration-300 relative overflow-hidden ${
+      className={`pt-4 pb-20 sm:pb-28 lg:pb-36 transition-colors duration-300 relative overflow-hidden ${
         isDark ? "bg-dark-surface" : "bg-white"
       }`}
     >
@@ -176,7 +209,7 @@ export default function Testimonials() {
       {particles.map((p) => (
         <span
           key={p.id}
-          className="particle"
+          className="particle hidden sm:block"
           style={{
             width: p.size,
             height: p.size,
@@ -202,57 +235,73 @@ export default function Testimonials() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary-500 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-secondary-500"></span>
             </span>
-            <span className="text-secondary-500 font-poppins text-sm font-medium">Real Stories</span>
+            <span className="text-secondary-500 font-poppins text-sm font-medium">{t('testimonials.realStories')}</span>
           </div>
 
           <h2
             className={`font-poppins font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-[-1px] sm:tracking-[-2px] text-text-light-primary dark:text-text-dark-primary mb-4 fade-up ${visible ? "visible" : ""}`}
             style={{ animationDelay: "0.1s" }}
           >
-            What Our <span className="text-secondary-500">Customers Say</span>
+            {t('testimonials.title')} <span className="text-secondary-500">{t('testimonials.titleEnd')}</span>
           </h2>
 
           <p
             className={`font-poppins text-base sm:text-lg text-text-light-secondary dark:text-text-dark-secondary max-w-2xl mx-auto fade-up ${visible ? "visible" : ""}`}
             style={{ animationDelay: "0.2s" }}
           >
-            Join 5000+ happy families who trust Sushiraj Enterprise
+            {t('testimonials.subtitle')}
           </p>
+        </div>
+
+        {/* Category Badges */}
+        <div className={`flex justify-center gap-3 mb-10 fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.25s" }}>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+            <Sprout className="w-3.5 h-3.5 text-green-500" />
+            <span className="text-xs font-medium text-green-600 dark:text-green-400">{t('testimonials.agriculture')}</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20">
+            <Droplets className="w-3.5 h-3.5 text-cyan-500" />
+            <span className="text-xs font-medium text-cyan-600 dark:text-cyan-400">{t('testimonials.ro')}</span>
+          </div>
         </div>
 
         {/* Infinite Scrolling Testimonials Carousel */}
         <div className={`relative overflow-hidden fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
-          {/* Gradient Overlays for smooth fade effect */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white dark:from-dark-surface to-transparent z-20 pointer-events-none"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white dark:from-dark-surface to-transparent z-20 pointer-events-none"></div>
+          {/* Gradient Overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-r from-white dark:from-dark-surface to-transparent z-20 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-l from-white dark:from-dark-surface to-transparent z-20 pointer-events-none"></div>
           
           {/* Scrolling Container */}
           <div
             ref={scrollContainerRef}
-            className="testimonial-scroll flex gap-6 py-4"
+            className="testimonial-scroll flex gap-4 sm:gap-6 py-4"
           >
             {doubledTestimonials.map((testimonial, index) => (
               <div
                 key={`${testimonial.id}-${index}`}
-                className={`testimonial-card flex-shrink-0 w-[350px] md:w-[400px] transition-all duration-300 hover:-translate-y-2 shimmer-card ${
+                className={`testimonial-card flex-shrink-0 w-[300px] sm:w-[380px] md:w-[420px] transition-all duration-300 hover:-translate-y-2 shimmer-card ${
                   isDark ? "bg-dark-card" : "bg-white"
                 } shadow-lg border border-gray-200 dark:border-gray-800 hover:shadow-2xl overflow-hidden rounded-2xl`}
               >
-                {/* Top gradient bar */}
-                <div className="h-1 bg-gradient-to-r from-secondary-500 to-secondary-400"></div>
+                {/* Top gradient bar based on category */}
+                <div className={`h-1 bg-gradient-to-r ${getProductColor(testimonial.category)}`}></div>
                 
-                <div className="p-6">
-                  {/* Quote Icon */}
+                <div className="p-5 sm:p-6">
+                  {/* Category Icon */}
                   <div className="absolute top-4 right-4 opacity-10">
-                    <Quote className="w-12 h-12 text-secondary-500" />
+                    {testimonial.category === "agriculture" ? (
+                      <Tractor className="w-10 h-10 sm:w-12 sm:h-12 text-green-500" />
+                    ) : (
+                      <Droplets className="w-10 h-10 sm:w-12 sm:h-12 text-cyan-500" />
+                    )}
                   </div>
                   
                   {/* Rating Stars */}
-                  <div className="flex gap-1 mb-4">
+                  <div className="flex gap-1 mb-3 sm:mb-4">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-4 h-4 ${
+                        className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                           i < testimonial.rating
                             ? "text-yellow-400 fill-yellow-400"
                             : "text-gray-300 dark:text-gray-600"
@@ -262,36 +311,34 @@ export default function Testimonials() {
                   </div>
                   
                   {/* Testimonial Text */}
-                  <p className="text-text-light-secondary dark:text-text-dark-secondary leading-relaxed mb-4 text-sm line-clamp-4">
+                  <p className="text-text-light-secondary dark:text-text-dark-secondary leading-relaxed mb-3 sm:mb-4 text-xs sm:text-sm line-clamp-4">
                     "{testimonial.text}"
                   </p>
                   
-                  {/* Product Tag */}
+                  {/* Product Tag with Icon */}
                   <div className="mb-3">
-                    <span className="text-xs px-2 py-1 rounded-full bg-secondary-500/10 text-secondary-500">
+                    <span className={`inline-flex items-center gap-1.5 text-[10px] sm:text-xs px-2 py-1 rounded-full ${
+                      testimonial.category === "agriculture" 
+                        ? "bg-green-500/10 text-green-600 dark:text-green-400" 
+                        : "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400"
+                    }`}>
+                      {getProductIcon(testimonial.category)}
                       {testimonial.product}
                     </span>
                   </div>
                   
                   {/* Customer Info */}
-                  <div className="flex items-center gap-3 pt-3 border-t border-gray-200 dark:border-gray-800">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-secondary-500 to-secondary-600 flex items-center justify-center">
-                      <User className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="font-poppins font-semibold text-sm text-text-light-primary dark:text-text-dark-primary">
-                        {testimonial.name}
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-800">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br ${getProductColor(testimonial.category)} flex items-center justify-center`}>
+                        <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
                       </div>
-                      <div className="flex items-center gap-2 text-xs text-text-light-secondary dark:text-text-dark-secondary">
-                        <span>{testimonial.location}</span>
-                        <span>•</span>
-                        <span>{testimonial.date}</span>
+                      <div className="text-[10px] sm:text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                        {t('testimonials.verifiedCustomer')}
                       </div>
                     </div>
                     {testimonial.verified && (
-                      <div className="ml-auto">
-                        <CheckCircle className="w-4 h-4 text-emerald-500" />
-                      </div>
+                      <CheckCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500" />
                     )}
                   </div>
                 </div>
@@ -302,29 +349,38 @@ export default function Testimonials() {
 
         {/* Trust Badge */}
         <div className={`text-center mt-12 fade-up ${visible ? "visible" : ""}`} style={{ animationDelay: "0.4s" }}>
-          <div className={`inline-flex flex-wrap items-center justify-center gap-4 px-6 py-3 rounded-full ${
+          <div className={`inline-flex flex-wrap items-center justify-center gap-3 sm:gap-4 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full ${
             isDark ? "bg-dark-card" : "bg-white"
           } shadow-md border border-gray-200 dark:border-gray-800`}>
             <div className="flex gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-400 fill-yellow-400" />
               ))}
             </div>
-            <span className="text-sm text-text-light-primary dark:text-text-dark-primary font-medium">
-              4.9 out of 5
+            <span className="text-xs sm:text-sm text-text-light-primary dark:text-text-dark-primary font-medium">
+              {t('testimonials.rating')}
             </span>
-            <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              Based on 500+ customer reviews
+            <span className="text-[10px] sm:text-xs text-text-light-secondary dark:text-text-dark-secondary">
+              {t('testimonials.basedOn')}
             </span>
-            <div className="w-px h-4 bg-gray-300 dark:bg-gray-700"></div>
-            <span className="text-xs text-text-light-secondary dark:text-text-dark-secondary">
-              ⭐ Rated Excellent
-            </span>
+            <div className="hidden sm:block w-px h-4 bg-gray-300 dark:bg-gray-700"></div>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <Sprout className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-green-500" />
+              <span className="text-[10px] sm:text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                {t('testimonials.farmers')}
+              </span>
+            </div>
+            <div className="hidden sm:block w-px h-4 bg-gray-300 dark:bg-gray-700"></div>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <Droplets className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-cyan-500" />
+              <span className="text-[10px] sm:text-xs text-text-light-secondary dark:text-text-dark-secondary">
+                {t('testimonials.homes')}
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Custom styles */}
       <style>{`
         .cursor-glow {
           position: absolute;
@@ -392,24 +448,29 @@ export default function Testimonials() {
         @keyframes floatUp {
           0% {
             transform: translateY(0) translateX(0) scale(1);
+            opacity: 0;
           }
-          50% {
-            transform: translateY(-45vh) translateX(18px) scale(1.1);
+          20% {
+            opacity: 1;
+          }
+          80% {
+            opacity: 1;
           }
           100% {
-            transform: translateY(-90vh) translateX(-8px) scale(0.7);
+            transform: translateY(-90vh) translateX(20px) scale(0.7);
             opacity: 0;
           }
         }
 
-        /* Infinite Scroll Animation */
+        /* Infinite Scroll Animation - Works on ALL devices (mobile + desktop) */
         .testimonial-scroll {
           display: flex;
-          gap: 1.5rem;
-          animation: scrollLeft 30s linear infinite;
+          gap: 1rem;
+          animation: scrollLeft 35s linear infinite;
           width: fit-content;
         }
 
+        /* Pause animation on hover for all devices */
         .testimonial-scroll:hover {
           animation-play-state: paused;
         }
@@ -420,6 +481,14 @@ export default function Testimonials() {
           }
           100% {
             transform: translateX(-50%);
+          }
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 640px) {
+          .testimonial-scroll {
+            gap: 0.75rem;
+            animation-duration: 25s;
           }
         }
 
@@ -477,9 +546,9 @@ export default function Testimonials() {
           overflow: hidden;
         }
 
-        @media (max-width: 768px) {
-          .testimonial-card {
-            width: 300px;
+        @media (max-width: 640px) {
+          .line-clamp-4 {
+            -webkit-line-clamp: 3;
           }
         }
 
