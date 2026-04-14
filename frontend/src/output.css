@@ -801,6 +801,10 @@ body {
   visibility: visible;
 }
 
+.static{
+  position: static;
+}
+
 .fixed{
   position: fixed;
 }
@@ -1487,6 +1491,16 @@ body {
   animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+@keyframes spin{
+  to{
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin{
+  animation: spin 1s linear infinite;
+}
+
 .cursor-pointer{
   cursor: pointer;
 }
@@ -1774,6 +1788,11 @@ body {
 
 .border-white\/30{
   border-color: rgb(255 255 255 / 0.3);
+}
+
+.border-t-secondary-500{
+  --tw-border-opacity: 1;
+  border-top-color: rgb(26 188 156 / var(--tw-border-opacity, 1));
 }
 
 .bg-\[\#0e1311\]{

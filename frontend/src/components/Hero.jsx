@@ -7,11 +7,23 @@ export default function SushirajHero() {
   const { isDark } = useTheme();
   const [visible, setVisible] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef(null);
   const animationFrameRef = useRef(null);
   const fadingOutRef = useRef(false);
   const currentOpacityRef = useRef(1);
   const [videoOpacity, setVideoOpacity] = useState(1);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Custom fade animation function
   const animateFade = useCallback((targetOpacity, duration, onComplete) => {
@@ -82,19 +94,30 @@ export default function SushirajHero() {
   // Handle video load and start playing
   const handleVideoLoaded = useCallback(() => {
     if (!videoRef.current || videoError) return;
+    setVideoLoaded(true);
     
-    videoRef.current.play().catch(error => {
-      console.log("Video autoplay failed:", error);
-      setVideoError(true);
-    });
+    // For mobile, use a longer delay before playing
+    const playDelay = isMobile ? 500 : 100;
+    
+    setTimeout(() => {
+      if (videoRef.current && !videoError) {
+        videoRef.current.play().catch(error => {
+          console.log("Video autoplay failed:", error);
+          // On mobile autoplay fail, show static image instead
+          setVideoError(true);
+        });
+      }
+    }, playDelay);
+    
     animateFade(1, 250, null);
-  }, [animateFade, videoError]);
+  }, [animateFade, videoError, isMobile]);
 
   // Handle video error
   const handleVideoError = useCallback(() => {
     console.log("Video failed to load");
     setVideoError(true);
     setVideoOpacity(1);
+    setVideoLoaded(true);
   }, []);
 
   // Initialize video event listeners
@@ -105,18 +128,25 @@ export default function SushirajHero() {
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("ended", handleVideoEnded);
     video.addEventListener("loadeddata", handleVideoLoaded);
+    video.addEventListener("canplaythrough", handleVideoLoaded);
     video.addEventListener("error", handleVideoError);
+
+    // For mobile, also try to load video manually
+    if (isMobile) {
+      video.load();
+    }
 
     return () => {
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("ended", handleVideoEnded);
       video.removeEventListener("loadeddata", handleVideoLoaded);
+      video.removeEventListener("canplaythrough", handleVideoLoaded);
       video.removeEventListener("error", handleVideoError);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [handleTimeUpdate, handleVideoEnded, handleVideoLoaded, handleVideoError]);
+  }, [handleTimeUpdate, handleVideoEnded, handleVideoLoaded, handleVideoError, isMobile]);
 
   // Animation on load
   useEffect(() => {
@@ -171,7 +201,8 @@ export default function SushirajHero() {
       <div className="absolute top-0 left-0 w-full h-full -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-secondary-500"></div>
         
-        {videoError && (
+        {/* Fallback Image for Mobile or when video fails */}
+        {(videoError || (!videoLoaded && isMobile)) && (
           <div className="absolute inset-0">
             <img 
               src="https://images.unsplash.com/photo-1580310614729-ccd696524c1d?w=1920&q=80&auto=format&fit=crop"
@@ -189,20 +220,28 @@ export default function SushirajHero() {
             left: "50%",
             top: "0",
             transform: "translateX(-50%)",
-            opacity: videoError ? 0 : videoOpacity,
-            display: videoError ? 'none' : 'block',
+            opacity: (videoError || (isMobile && !videoLoaded)) ? 0 : videoOpacity,
+            display: (videoError || (isMobile && !videoLoaded)) ? 'none' : 'block',
           }}
           src="/sushiraj-bg.mp4"
           loop={false}
           muted
           playsInline
-          preload="auto"
+          preload={isMobile ? "none" : "auto"}
+          poster="https://images.unsplash.com/photo-1580310614729-ccd696524c1d?w=1920&q=80&auto=format&fit=crop"
         />
         
         <div className="absolute inset-0 bg-black/40 dark:bg-black/50"></div>
       </div>
 
-      {/* Hero Content - Perfectly Balanced */}
+      {/* Loading Indicator for Mobile Video */}
+      {isMobile && !videoLoaded && !videoError && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+          <div className="w-10 h-10 border-2 border-white/30 border-t-secondary-500 rounded-full animate-spin" />
+        </div>
+      )}
+
+      {/* Hero Content */}
       <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center justify-center w-full py-8 sm:py-10 md:py-12">
           
@@ -221,19 +260,19 @@ export default function SushirajHero() {
             </div>
           </div>
 
-          {/* Main Headline - Well Balanced */}
+          {/* Main Headline */}
           <h1 className={`fade-up text-center font-poppins font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-[-1px] text-white mb-3 sm:mb-4 md:mb-5 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.2s" }}>
             {t('hero.title')}
             <br />
             <span className="text-secondary-500">{t('hero.titleHighlight')}</span>
           </h1>
 
-          {/* Subtitle - Well Balanced */}
+          {/* Subtitle */}
           <p className={`fade-up text-center font-poppins font-medium text-sm sm:text-base md:text-lg text-white/85 max-w-[90%] sm:max-w-[85%] md:max-w-2xl mb-5 sm:mb-6 md:mb-7 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.3s" }}>
             {t('hero.description')}
           </p>
 
-          {/* CTA Buttons - Perfect Size */}
+          {/* CTA Buttons */}
           <div className={`fade-up flex flex-col xs:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-[90%] xs:max-w-md sm:max-w-lg ${visible ? "visible" : ""}`} style={{ animationDelay: "0.4s" }}>
             <button 
               onClick={(e) => handleNavClick(e, '#contact')}
@@ -253,7 +292,7 @@ export default function SushirajHero() {
             </button>
           </div>
 
-          {/* WhatsApp CTA - Balanced */}
+          {/* WhatsApp CTA */}
           <div className={`fade-up mt-4 sm:mt-5 ${visible ? "visible" : ""}`} style={{ animationDelay: "0.45s" }}>
             <a 
               href="https://wa.me/918888800773"
@@ -266,7 +305,7 @@ export default function SushirajHero() {
             </a>
           </div>
 
-          {/* Trust Badges - Clean */}
+          {/* Trust Badges */}
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 mt-6 sm:mt-7 md:mt-8">
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 bg-secondary-500 rounded-full"></div>
@@ -308,6 +347,19 @@ export default function SushirajHero() {
         
         .fade-up.visible {
           animation: fadeUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        .animate-spin {
+          animation: spin 1s linear infinite;
         }
       `}</style>
     </div>
